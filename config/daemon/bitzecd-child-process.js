@@ -19,20 +19,20 @@ import getBinariesPath from './get-binaries-path';
 import getOsFolder from './get-os-folder';
 import getDaemonName from './get-daemon-name';
 import fetchParams from './run-fetch-params';
-import { locateZcashConf } from './locate-zcash-conf';
+import { locateBitzecConf } from './locate-bitzec-conf';
 import { log } from './logger';
 import store from '../electron-store';
-import { parseZcashConf, parseCmdArgs, generateArgsFromConf } from './parse-zcash-conf';
+import { parseBitzecConf, parseCmdArgs, generateArgsFromConf } from './parse-bitzec-conf';
 import { isTestnet } from '../is-testnet';
 import {
   EMBEDDED_DAEMON,
-  ZCASH_NETWORK,
+  BITZEC_NETWORK,
   TESTNET,
   MAINNET,
-} from '../../app/constants/zcash-network';
+} from '../../app/constants/bitzec-network';
 
 const getDaemonOptions = ({
-  username, password, useDefaultZcashConf, optionsFromZcashConf,
+  username, password, useDefaultBitzecConf, optionsFromBitzecConf,
 }) => {
   /*
     -showmetrics
@@ -52,18 +52,18 @@ const getDaemonOptions = ({
     `-rpcuser=${username}`,
     `-rpcpassword=${password}`,
     ...(isTestnet() ? ['-testnet', '-addnode=testnet.z.cash'] : ['-addnode=mainnet.z.cash']),
-    // Overwriting the settings with values taken from "zcash.conf"
-    ...optionsFromZcashConf,
+    // Overwriting the settings with values taken from "bitzec.conf"
+    ...optionsFromBitzecConf,
   ];
 
-  if (useDefaultZcashConf) defaultOptions.push(`-conf=${locateZcashConf()}`);
+  if (useDefaultBitzecConf) defaultOptions.push(`-conf=${locateBitzecConf()}`);
 
-  return Array.from(new Set([...defaultOptions, ...optionsFromZcashConf]));
+  return Array.from(new Set([...defaultOptions, ...optionsFromBitzecConf]));
 };
 
 let resolved = false;
 
-const ZCASHD_PROCESS_NAME = getDaemonName();
+const BITZECD_PROCESS_NAME = getDaemonName();
 
 let isWindowOpened = false;
 
@@ -94,12 +94,12 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   store.delete('rpcconnect');
   store.delete('rpcport');
 
-  const processName = path.join(getBinariesPath(), getOsFolder(), ZCASHD_PROCESS_NAME);
+  const processName = path.join(getBinariesPath(), getOsFolder(), BITZECD_PROCESS_NAME);
   const isRelaunch = Boolean(process.argv.find(arg => arg === '--relaunch'));
 
-  if (!mainWindow.isDestroyed()) mainWindow.webContents.send('zcashd-params-download', 'Fetching params...');
+  if (!mainWindow.isDestroyed()) mainWindow.webContents.send('bitzecd-params-download', 'Fetching params...');
 
-  sendToRenderer('zcash-daemon-status', {
+  sendToRenderer('bitzec-daemon-status', {
     error: false,
     status:
         'Downloading network params, this may take some time depending on your connection speed',
@@ -108,7 +108,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   const [err] = await eres(fetchParams());
 
   if (err) {
-    sendToRenderer('zcash-daemon-status', {
+    sendToRenderer('bitzec-daemon-status', {
       error: true,
       status: `Error while fetching params: ${err.message}`,
     });
@@ -116,51 +116,51 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     return reject(new Error(err));
   }
 
-  sendToRenderer('zcash-daemon-status', {
+  sendToRenderer('bitzec-daemon-status', {
     error: false,
     status: 'Zepio Starting',
   });
 
-  // In case of --relaunch on argv, we need wait to close the old zcash daemon
+  // In case of --relaunch on argv, we need wait to close the old bitzec daemon
   // a workaround is use a interval to check if there is a old process running
   if (isRelaunch) {
-    await waitForDaemonClose(ZCASHD_PROCESS_NAME);
+    await waitForDaemonClose(BITZECD_PROCESS_NAME);
   }
 
-  const [, isRunning] = await eres(processExists(ZCASHD_PROCESS_NAME));
+  const [, isRunning] = await eres(processExists(BITZECD_PROCESS_NAME));
 
   // This will parse and save rpcuser and rpcpassword in the store
-  let [, optionsFromZcashConf] = await eres(parseZcashConf());
+  let [, optionsFromBitzecConf] = await eres(parseBitzecConf());
 
-  // if the user has a custom datadir and doesn't have a zcash.conf in that folder,
-  // we need to use the default zcash.conf
-  let useDefaultZcashConf = false;
+  // if the user has a custom datadir and doesn't have a bitzec.conf in that folder,
+  // we need to use the default bitzec.conf
+  let useDefaultBitzecConf = false;
 
-  if (optionsFromZcashConf.datadir) {
-    const hasDatadirConf = fs.existsSync(path.join(optionsFromZcashConf.datadir, 'zcash.conf'));
+  if (optionsFromBitzecConf.datadir) {
+    const hasDatadirConf = fs.existsSync(path.join(optionsFromBitzecConf.datadir, 'bitzec.conf'));
 
     if (hasDatadirConf) {
-      optionsFromZcashConf = await parseZcashConf(
-        path.join(String(optionsFromZcashConf.datadir), 'zcash.conf'),
+      optionsFromBitzecConf = await parseBitzecConf(
+        path.join(String(optionsFromBitzecConf.datadir), 'bitzec.conf'),
       );
     } else {
-      useDefaultZcashConf = true;
+      useDefaultBitzecConf = true;
     }
   }
 
-  if (optionsFromZcashConf.rpcconnect) store.set('rpcconnect', optionsFromZcashConf.rpcconnect);
-  if (optionsFromZcashConf.rpcport) store.set('rpcport', optionsFromZcashConf.rpcport);
-  if (optionsFromZcashConf.rpcuser) store.set('rpcuser', optionsFromZcashConf.rpcuser);
-  if (optionsFromZcashConf.rpcpassword) store.set('rpcpassword', optionsFromZcashConf.rpcpassword);
+  if (optionsFromBitzecConf.rpcconnect) store.set('rpcconnect', optionsFromBitzecConf.rpcconnect);
+  if (optionsFromBitzecConf.rpcport) store.set('rpcport', optionsFromBitzecConf.rpcport);
+  if (optionsFromBitzecConf.rpcuser) store.set('rpcuser', optionsFromBitzecConf.rpcuser);
+  if (optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', optionsFromBitzecConf.rpcpassword);
 
   if (isRunning) {
     log('Already is running!');
 
     store.set(EMBEDDED_DAEMON, false);
-    // We need grab the rpcuser and rpcpassword from either process args or zcash.conf
+    // We need grab the rpcuser and rpcpassword from either process args or bitzec.conf
 
-    // Command line args override zcash.conf
-    const [{ cmd }] = await findProcess('name', ZCASHD_PROCESS_NAME);
+    // Command line args override bitzec.conf
+    const [{ cmd }] = await findProcess('name', BITZECD_PROCESS_NAME);
     const {
       rpcuser, rpcpassword, rpcconnect, rpcport, testnet: isTestnetFromCmd,
     } = parseCmdArgs(
@@ -168,8 +168,8 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     );
 
     store.set(
-      ZCASH_NETWORK,
-      isTestnetFromCmd === '1' || optionsFromZcashConf.testnet === '1' ? TESTNET : MAINNET,
+      BITZEC_NETWORK,
+      isTestnetFromCmd === '1' || optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET,
     );
 
     if (rpcuser) store.set('rpcuser', rpcuser);
@@ -183,11 +183,11 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   store.set(EMBEDDED_DAEMON, true);
 
   if (!isRelaunch) {
-    store.set(ZCASH_NETWORK, optionsFromZcashConf.testnet === '1' ? TESTNET : MAINNET);
+    store.set(BITZEC_NETWORK, optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET);
   }
 
-  if (!optionsFromZcashConf.rpcuser) store.set('rpcuser', uuid());
-  if (!optionsFromZcashConf.rpcpassword) store.set('rpcpassword', uuid());
+  if (!optionsFromBitzecConf.rpcuser) store.set('rpcuser', uuid());
+  if (!optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', uuid());
 
   const rpcCredentials = {
     username: store.get('rpcuser'),
@@ -200,8 +200,8 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     processName,
     getDaemonOptions({
       ...rpcCredentials,
-      useDefaultZcashConf,
-      optionsFromZcashConf: generateArgsFromConf(optionsFromZcashConf),
+      useDefaultBitzecConf,
+      optionsFromBitzecConf: generateArgsFromConf(optionsFromBitzecConf),
     }),
     {
       stdio: ['ignore', 'pipe', 'pipe'],
@@ -209,7 +209,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   );
 
   childProcess.stdout.on('data', (data) => {
-    sendToRenderer('zcashd-log', data.toString(), false);
+    sendToRenderer('bitzecd-log', data.toString(), false);
     if (!resolved) {
       resolve(childProcess);
       resolved = true;

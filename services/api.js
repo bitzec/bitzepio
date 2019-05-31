@@ -26,7 +26,7 @@ const getMessage = (statusCode, isECONNREFUSED) => {
 
   switch (statusCode) {
     case 401:
-      return 'Not authorized to access Zcash RPC, please check your rpcuser and rpcpassword';
+      return 'Not authorized to access Bitzec RPC, please check your rpcuser and rpcpassword';
     default:
       return 'Something went wrong';
   }

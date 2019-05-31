@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ZcashLogo } from './zcash-logo';
+import { BitzecLogo } from './bitzec-logo';
 import { TextComponent } from './text';
 import { Divider } from './divider';
 import { RowComponent } from './row';
@@ -63,7 +63,7 @@ type Props = {
 export const HeaderComponent = ({ title }: Props) => (
   <Wrapper id='header'>
     <LogoWrapper>
-      <ZcashLogo />
+      <BitzecLogo />
     </LogoWrapper>
     <TitleWrapper>
       <TitleRow alignItems='center' justifyContent='space-around'>

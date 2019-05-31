@@ -30,7 +30,7 @@ describe('<InputComponent />', () => {
       <ThemeProvider theme={appTheme}>
         <InputComponent
           inputType='textarea'
-          value='I am Zcash Electron Wallet'
+          value='I am Bitzec Electron Wallet'
           onChange={console.log} // eslint-disable-line
           rows={10}
         />

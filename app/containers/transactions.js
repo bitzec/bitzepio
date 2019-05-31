@@ -14,7 +14,7 @@ import {
 import rpc from '../../services/api';
 import { listShieldedTransactions } from '../../services/shielded-transactions';
 import store from '../../config/electron-store';
-import { MIN_CONFIRMATIONS_NUMBER } from '../constants/zcash-network';
+import { MIN_CONFIRMATIONS_NUMBER } from '../constants/bitzec-network';
 
 import { sortByDescend } from '../utils/sort-by-descend';
 

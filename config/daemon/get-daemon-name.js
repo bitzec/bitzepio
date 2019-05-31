@@ -3,4 +3,4 @@
 import os from 'os';
 
 // eslint-disable-next-line
-export default () => (os.platform() === 'win32' ? 'zcashd.exe' : 'zcashd');
+export default () => (os.platform() === 'win32' ? 'bitzec.exe' : 'bitzecd');

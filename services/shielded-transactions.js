@@ -1,6 +1,6 @@
 // @flow
 import electronStore from '../config/electron-store';
-import { MAINNET, TESTNET } from '../app/constants/zcash-network';
+import { MAINNET, TESTNET } from '../app/constants/bitzec-network';
 import { isTestnet } from '../config/is-testnet';
 
 const getStoreKey = () => `SHIELDED_TRANSACTIONS_${isTestnet() ? TESTNET : MAINNET}`;

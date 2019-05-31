@@ -11,7 +11,7 @@ import { DashboardView } from '../views/dashboard';
 
 import rpc from '../../services/api';
 import store from '../../config/electron-store';
-import { SAPLING, MIN_CONFIRMATIONS_NUMBER } from '../constants/zcash-network';
+import { SAPLING, MIN_CONFIRMATIONS_NUMBER } from '../constants/bitzec-network';
 import { NODE_SYNC_TYPES } from '../constants/node-sync-types';
 import { listShieldedTransactions } from '../../services/shielded-transactions';
 import { sortByDescend } from '../utils/sort-by-descend';

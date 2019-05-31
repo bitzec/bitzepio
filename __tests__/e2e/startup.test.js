@@ -22,8 +22,8 @@ describe('Startup', () => {
     expect.stringContaining('Zepio Starting'),
   ));
 
-  test('should show the zcash logo in loading screen', () => expect(app.client.getAttribute('#loading-screen:first-child img', 'src')).resolves.toEqual(
-    expect.stringContaining('/assets/zcash-simple-icon.svg'),
+  test('should show the bitzec logo in loading screen', () => expect(app.client.getAttribute('#loading-screen:first-child img', 'src')).resolves.toEqual(
+    expect.stringContaining('/assets/bitzec-simple-icon.svg'),
   ));
 
   test('should show the loading circle in loading screen', () => {

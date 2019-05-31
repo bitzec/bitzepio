@@ -8,8 +8,8 @@ import uuid from 'uuid/v4';
 
 import { TextComponent } from '../components/text';
 
-import ConsoleSymbolDark from '../assets/images/console_zcash_dark.png';
-import ConsoleSymbolLight from '../assets/images/console_zcash_light.png';
+import ConsoleSymbolDark from '../assets/images/console_bitzec_dark.png';
+import ConsoleSymbolLight from '../assets/images/console_bitzec_light.png';
 import { DARK } from '../constants/themes';
 
 const Wrapper = styled.div`
@@ -32,22 +32,22 @@ const ConsoleImg = styled.img`
 `;
 
 const initialLog = `
-  Thank you for running a Zcash node!
+  Thank you for running a Bitzec node!
   You're helping to strengthen the network and contributing to a social good :)
 
-  In order to ensure you are adequately protecting your privacy when using Zcash, please see <https://z.cash/support/security/>.
+  In order to ensure you are adequately protecting your privacy when using Bitzec, please see <https://z.cash/support/security/>.
 `;
 
 const defaultState = `
-  Thank you for running a Zcash node!
+  Thank you for running a Bitzec node!
   You're helping to strengthen the network and contributing to a social good :)
-  In order to ensure you are adequately protecting your privacy when using Zcash, please see <https://z.cash/support/security/>.
+  In order to ensure you are adequately protecting your privacy when using Bitzec, please see <https://z.cash/support/security/>.
 
   Block height | 0
   Connections | 0
   Network solution rate | 0 Sol/s
   You are currently not mining.
-  To enable mining, add 'gen=1' to your zcash.conf and restart.
+  To enable mining, add 'gen=1' to your bitzec.conf and restart.
 
   Since starting this node 0 minutes, 0 seconds ago:
 - You have validated 0 transactions!
@@ -71,13 +71,13 @@ class Component extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    ipcRenderer.on('zcashd-log', (event: empty, message: string) => {
+    ipcRenderer.on('bitzecd-log', (event: empty, message: string) => {
       this.setState(() => ({ log: initialLog + message }));
     });
   }
 
   componentWillUnmount() {
-    ipcRenderer.removeAllListeners('zcashd-log');
+    ipcRenderer.removeAllListeners('bitzecd-log');
   }
 
   render() {
@@ -89,7 +89,7 @@ class Component extends PureComponent<Props, State> {
     return (
       <Wrapper id='console-wrapper'>
         <Fragment>
-          <ConsoleImg src={ConsoleSymbol} alt='Zcashd' />
+          <ConsoleImg src={ConsoleSymbol} alt='Bitzecd' />
           {log.split('\n').map((item, idx) => (
             <Fragment key={uuid()}>
               <ConsoleText value={item} />

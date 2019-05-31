@@ -2,7 +2,7 @@
   "name": "zepio",
   "productName": "Zepio",
   "version": "0.7.1",
-  "description": "Zepio | Cross-platform sapling-enabled full-node Zcash wallet",
+  "description": "Zepio | Cross-platform sapling-enabled full-node Bitzec wallet",
   "main": "config/main.js",
   "homepage": "https://zepiowallet.com",
   "license": "MIT",
@@ -12,11 +12,11 @@
     "url": "https://andrenev.es"
   },
   "bugs": {
-    "url": "https://github.com/ZcashFoundation/zepio/issues"
+    "url": "https://github.com/BitzecFoundation/zepio/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZcashFoundation/zepio"
+    "url": "git+https://github.com/BitzecFoundation/zepio"
   },
   "scripts": {
     "start": "yarn check --integrity && concurrently \"cross-env BROWSER=none yarn dev\" \"wait-on http://0.0.0.0:8080 && yarn electron:dev\"",
@@ -38,7 +38,7 @@
     "icon:build": "./node_modules/.bin/electron-icon-maker --input=build-assets/icon.png --output=./build",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
-    "docz:deploy": "yarn docz:build && cd ./.docz/dist && now && now alias zec-docz.now.sh",
+    "docz:deploy": "yarn docz:build && cd ./.docz/dist && now && now alias bzc-docz.now.sh",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:unit": "jest --testPathIgnorePatterns=e2e --testPathIgnorePatterns=setup",
@@ -51,7 +51,7 @@
     "flow:precommit"
   ],
   "build": {
-    "appId": "com.zcashfoundation",
+    "appId": "com.bitzecfoundation",
     "productName": "Zepio",
     "asar": true,
     "directories": {
@@ -106,9 +106,9 @@
       "icon": "./build/icons/win/icon.ico"
     },
     "protocols": {
-      "name": "zcash",
+      "name": "bitzec",
       "schemes": [
-        "zcash"
+        "bitzec"
       ]
     }
   },

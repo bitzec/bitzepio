@@ -21,7 +21,7 @@ describe('Console', () => {
     expect(app.client.element('#console-wrapper img')
       .getAttribute('src'))
       .resolves.toEqual(
-        expect.stringContaining('/assets/console_zcash.png'),
+        expect.stringContaining('/assets/console_bitzec.png'),
       );
   });
 });

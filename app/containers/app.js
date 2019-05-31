@@ -10,7 +10,7 @@ import type { AppState } from '../types/app-state';
 
 export type MapStateToProps = {|
   isErrorModalVisible: boolean,
-  zcashNetwork: string,
+  bitzecNetwork: string,
   error: string | null,
   embeddedDaemon: boolean,
 |};
@@ -18,7 +18,7 @@ export type MapStateToProps = {|
 const mapStateToProps = ({ app }: AppState): MapStateToProps => ({
   isErrorModalVisible: app.isErrorModalVisible,
   error: app.error,
-  zcashNetwork: app.zcashNetwork,
+  bitzecNetwork: app.bitzecNetwork,
   embeddedDaemon: app.embeddedDaemon,
 });
 

@@ -14,7 +14,7 @@ const sendMessage = (mainWindow, url) => {
 };
 
 export const searchUriInArgv = (argv: string[]): ?string => {
-  const argIndex = argv.findIndex(item => /zcash:(\/\/)?/.test(item));
+  const argIndex = argv.findIndex(item => /bitzec:(\/\/)?/.test(item));
   return argv[argIndex];
 };
 

@@ -7,7 +7,7 @@ import { Transition, animated } from 'react-spring';
 import CircleProgressComponent from 'react-circle';
 import { TextComponent } from './text';
 
-import zcashLogo from '../assets/images/zcash-simple-icon.svg';
+import bitzecLogo from '../assets/images/bitzec-simple-icon.svg';
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -103,7 +103,7 @@ class Component extends PureComponent<Props, State> {
             >
               <LoadingCard>
                 <CircleWrapper>
-                  <Logo src={zcashLogo} alt='Zcash Logo' />
+                  <Logo src={bitzecLogo} alt='Bitzec Logo' />
                   <CircleProgressComponent
                     progress={progress}
                     responsive

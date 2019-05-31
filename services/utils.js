@@ -539,7 +539,7 @@ export type APIMethods = {
   estimatefee: (nblocks: number) => Promise<number>,
   estimatepriority: (nblocks: number) => Promise<number>,
   validateaddress: (
-    zcashaddress: string,
+    bitzecaddress: string,
   ) => Promise<{
     isvalid: boolean,
     address: string,
@@ -550,7 +550,7 @@ export type APIMethods = {
     iscompressed: boolean,
     account: string,
   }>,
-  verifymessage: (zcashaddress: string, signature: string, message: string) => Promise<boolean>,
+  verifymessage: (bitzecaddress: string, signature: string, message: string) => Promise<boolean>,
   z_validateaddress: (
     zaddr: string,
   ) => Promise<{
@@ -568,14 +568,14 @@ export type APIMethods = {
   dumpprivkey: (tAddr: string) => Promise<string>,
   dumpwallet: (filename: string) => Promise<string>,
   encryptwallet: (passphrase: string) => Promise<void>,
-  getaccount: (zcashaddress: string) => Promise<string>,
+  getaccount: (bitzecaddress: string) => Promise<string>,
   getaccountaddress: (account: string) => Promise<string>,
   getaddressesbyaccount: (account: string) => Promise<string[]>,
   getbalance: (account?: string, minconf?: number, includeWatchonly?: boolean) => Promise<number>,
   getnewaddress: (account: string) => Promise<string>,
   getrawchangeaddress: (address: string) => Promise<string>,
   getreceivedbyaccount: (account: string, minconf?: number) => Promise<number>,
-  getreceivedbyaddress: (zcashaddress: string, minconf?: number) => Promise<number>,
+  getreceivedbyaddress: (bitzecaddress: string, minconf?: number) => Promise<number>,
   gettransaction: (
     txid: string,
     includeWatchonly?: boolean,
@@ -618,7 +618,7 @@ export type APIMethods = {
     seedfp: string,
   }>,
   importaddress: (address: string, label?: string, rescan?: boolean) => Promise<void>,
-  importprivkey: (zcashprivkey: string, label?: string, rescan?: boolean) => Promise<void>,
+  importprivkey: (bitzecprivkey: string, label?: string, rescan?: boolean) => Promise<void>,
   importwallet: (filename: string) => Promise<void>,
   keypoolrefill: (newsize?: number) => Promise<void>,
   listaccounts: (minconf?: number, includeWatchonly?: boolean) => Promise<{ [account: string]: number }>,
@@ -720,7 +720,7 @@ export type APIMethods = {
   ) => Promise<boolean>,
   sendfrom: (
     fromaccount: string,
-    tozcashaddress: string,
+    tobitzecaddress: string,
     amount: number,
     minconf?: number,
     comment?: string,
@@ -734,13 +734,13 @@ export type APIMethods = {
     subtractfeefromamount?: string[],
   ) => Promise<string>,
   sendtoaddress: (
-    zcashaddress: string,
+    bitzecaddress: string,
     amount: number,
     comment?: string,
     commentTo?: string,
     subtractfeefromamount?: boolean,
   ) => Promise<string>,
-  setaccount: (zcashaddress: string, account: string) => Promise<void>,
+  setaccount: (bitzecaddress: string, account: string) => Promise<void>,
   settxfee: (amount: number) => Promise<boolean>,
   signmessage: (tAddr: string, message: string) => Promise<string>,
   z_exportkey: (zaddr: string) => Promise<string>,

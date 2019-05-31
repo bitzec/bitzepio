@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { BigNumber } from 'bignumber.js';
 
 import { ReceiveView } from '../views/receive';
-import { SAPLING } from '../constants/zcash-network';
+import { SAPLING } from '../constants/bitzec-network';
 
 import {
   loadAddressesSuccess,

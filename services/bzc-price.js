@@ -8,11 +8,11 @@ type Payload = {
 
 /**
   WARNING:
-  Just a super fast way to get the zec price
+  Just a super fast way to get the bzc price
 */
 // eslint-disable-next-line
 export default (currencies: string[] = ['USD']): Promise<Payload> => new Promise((resolve, reject) => {
-  const ENDPOINT = `https://min-api.cryptocompare.com/data/price?fsym=ZEC&tsyms=${currencies.join(
+  const ENDPOINT = `https://min-api.cryptocompare.com/data/price?fsym=BZC&tsyms=${currencies.join(
     ',',
   )}&api_key=${String(process.env.ZEC_PRICE_API_KEY)}`;
 

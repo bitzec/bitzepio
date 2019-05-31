@@ -46,7 +46,7 @@ export const withDeepLink = (
       electronStore.delete(OSX_DEEPLINK_URL_KEY);
     }
 
-    history.replace(`/send/${message.replace(/zcash:(\/\/)?/, '')}`);
+    history.replace(`/send/${message.replace(/bitzec:(\/\/)?/, '')}`);
   }
 
   render() {

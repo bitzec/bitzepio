@@ -2,10 +2,10 @@
 
 import fs from 'fs';
 
-import { locateZcashConf } from './locate-zcash-conf';
+import { locateBitzecConf } from './locate-bitzec-conf';
 import { filterObjectNullKeys } from '../../app/utils/filter-object-null-keys';
 
-type ZcashConfFile = {
+type BitzecConfFile = {
   testnet: ?string,
   regtest: ?string,
   proxy: ?string,
@@ -34,15 +34,15 @@ type ZcashConfFile = {
 };
 
 // eslint-disable-next-line
-export const parseZcashConf = (customDir: ?string): Promise<ZcashConfFile> => new Promise((resolve, reject) => {
-  fs.readFile(customDir || locateZcashConf(), (err, file) => {
+export const parseBitzecConf = (customDir: ?string): Promise<BitzecConfFile> => new Promise((resolve, reject) => {
+  fs.readFile(customDir || locateBitzecConf(), (err, file) => {
     if (err) return reject(err);
 
     const fileString = file.toString();
 
     /* eslint-disable no-unused-vars */
     // $FlowFixMe
-    const payload: ZcashConfFile = filterObjectNullKeys(
+    const payload: BitzecConfFile = filterObjectNullKeys(
       fileString.split('\n').reduce((acc, cur) => {
         if (!cur) return acc;
 
@@ -60,7 +60,7 @@ export const parseZcashConf = (customDir: ?string): Promise<ZcashConfFile> => ne
 });
 
 /* eslint-disable-next-line max-len */
-export const generateArgsFromConf = (obj: ZcashConfFile): Array<string> => Object.keys(obj).reduce((acc, key) => {
+export const generateArgsFromConf = (obj: BitzecConfFile): Array<string> => Object.keys(obj).reduce((acc, key) => {
   // We can omit the credentials for the command line
   if (key === 'rpcuser' || key === 'rpcpassword') return acc;
 

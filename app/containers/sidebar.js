@@ -7,12 +7,12 @@ import { SidebarComponent } from '../components/sidebar';
 import type { AppState } from '../types/app-state';
 
 export type MapStateToProps = {|
-  zcashNetwork: string,
+  bitzecNetwork: string,
   embeddedDaemon: boolean,
 |};
 
 const mapStateToProps = ({ app }: AppState): MapStateToProps => ({
-  zcashNetwork: app.zcashNetwork,
+  bitzecNetwork: app.bitzecNetwork,
   embeddedDaemon: app.embeddedDaemon,
 });
 

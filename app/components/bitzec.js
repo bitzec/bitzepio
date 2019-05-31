@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-export const ZcashLogo = () => (
+export const BitzecLogo = () => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     viewBox='-75 -10 175 175'

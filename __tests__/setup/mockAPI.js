@@ -13,7 +13,7 @@ const handler = (server) => {
   console.log('[MOCK RPC API]', server.url); // eslint-disable-line
 
   server.get('/', (req, res) => {
-    res.send('Zcash RPC');
+    res.send('Bitzec RPC');
   });
 
   server.post('/', async (req, res) => {

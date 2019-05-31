@@ -12,9 +12,9 @@ import {
 import { autoUpdater } from 'electron-updater';
 import isDev from 'electron-is-dev';
 import { registerDebugShortcut } from '../utils/debug-shortcut';
-import runDaemon from './daemon/zcashd-child-process';
-import { log as zcashLog, cleanLogs } from './daemon/logger';
-import getZecPrice from '../services/zec-price';
+import runDaemon from './daemon/bitzecd-child-process';
+import { log as bitzecLog, cleanLogs } from './daemon/logger';
+import getZecPrice from '../services/bzc-price';
 import store from './electron-store';
 import { handleDeeplink } from './handle-deeplink';
 import { MENU } from '../app/menu';
@@ -23,7 +23,7 @@ dotenv.config();
 
 let mainWindow: BrowserWindowType;
 let updateAvailable: boolean = false;
-let zcashDaemon;
+let bitzecDaemon;
 
 const showStatus = (text) => {
   if (text === 'Update downloaded') updateAvailable = true;
@@ -85,7 +85,7 @@ const createWindow = () => {
   exports.mainWindow = mainWindow;
 };
 
-app.setAsDefaultProtocolClient('zcash');
+app.setAsDefaultProtocolClient('bitzec');
 
 const instanceLock = app.requestSingleInstanceLock();
 if (instanceLock) {
@@ -121,18 +121,18 @@ app.on('ready', async () => {
   cleanLogs();
 
   if (process.env.NODE_ENV === 'test') {
-    zcashLog('Not running daemon, please run the mock API');
+    bitzecLog('Not running daemon, please run the mock API');
     return;
   }
 
   runDaemon()
     .then((proc) => {
       if (proc) {
-        zcashLog(`Zcash Daemon running. PID: ${proc.pid}`);
-        zcashDaemon = proc;
+        bitzecLog(`Bitzec Daemon running. PID: ${proc.pid}`);
+        bitzecDaemon = proc;
       }
     })
-    .catch(zcashLog);
+    .catch(bitzecLog);
 });
 app.on('activate', () => {
   if (mainWindow === null) createWindow();
@@ -141,8 +141,8 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 app.on('before-quit', () => {
-  if (zcashDaemon) {
-    zcashLog('Graceful shutdown Zcash Daemon, this may take a few seconds.');
-    zcashDaemon.kill('SIGINT');
+  if (bitzecDaemon) {
+    bitzecLog('Graceful shutdown Bitzec Daemon, this may take a few seconds.');
+    bitzecDaemon.kill('SIGINT');
   }
 });

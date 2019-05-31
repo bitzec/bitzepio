@@ -4,7 +4,7 @@ import { openExternal } from './utils/open-external';
 import packageJson from '../package.json';
 
 const DOCS_URL = 'https://zepiowallet.com/';
-const REPOSITORY_URL = 'https://github.com/ZcashFoundation/zepio/issues';
+const REPOSITORY_URL = 'https://github.com/BitzecFoundation/zepio/issues';
 
 const menu = [
   {
