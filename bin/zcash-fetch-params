@@ -10,15 +10,15 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   fi
 else
   if [ ! -e "$HOME/.bitzec/bitzec.conf" ] ; then
-    mkdir -p "$HOME/.bitzec" 
+    mkdir -p "$HOME/.bitzec"
     echo "server=1" > "$HOME/.bitzec/bitzec.conf"
   fi
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    PARAMS_DIR="$HOME/Library/Application Support/BitzecParams"
+    PARAMS_DIR="$HOME/Library/Application Support/ZcashParams"
 else
-    PARAMS_DIR="$HOME/.bitzec-params"
+    PARAMS_DIR="$HOME/.zcash-params"
 fi
 
 SPROUT_PKEY_NAME='sprout-proving.key'
