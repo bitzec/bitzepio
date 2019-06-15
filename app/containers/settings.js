@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import electron from 'electron'; // eslint-disable-line
 
 import electronStore from '../../config/electron-store';
-import { BITZEC_NETWORK } from '../constants/bitzec-network';
+import { BITBZC_NETWORK } from '../constants/bitzec-network';
 import { SettingsView } from '../views/settings';
 
 import { loadAddressesSuccess, loadAddressesError } from '../redux/modules/receive';
@@ -50,7 +50,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     );
   },
   updateBitzecNetwork: (newNetwork) => {
-    electronStore.set(BITZEC_NETWORK, newNetwork);
+    electronStore.set(BITBZC_NETWORK, newNetwork);
 
     electron.remote.app.relaunch({
       args: Array.from(new Set(electron.remote.process.argv.slice(1).concat(['--relaunch']))),

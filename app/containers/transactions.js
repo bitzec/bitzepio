@@ -24,9 +24,9 @@ import type { Transaction } from '../components/transaction-item';
 
 const mapStateToProps = ({ transactions }: AppState) => ({
   transactions: transactions.list,
-  isLoading: transactions.isLoading,
+  fetchState: transactions.fetchState,
   error: transactions.error,
-  zecPrice: transactions.zecPrice,
+  bzcPrice: transactions.bzcPrice,
   hasNextPage: transactions.hasNextPage,
 });
 
@@ -34,7 +34,7 @@ export type MapStateToProps = {
   transactions: Transaction[],
   isLoading: boolean,
   error: string | null,
-  zecPrice: number,
+  bzcPrice: number,
   hasNextPage: boolean,
 };
 
@@ -82,7 +82,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     dispatch(
       loadTransactionsSuccess({
         list: formattedTransactions,
-        zecPrice: new BigNumber(store.get('ZEC_DOLLAR_PRICE')).toNumber(),
+        bzcPrice: new BigNumber(store.get('BZC_DOLLAR_PRICE')).toNumber(),
         hasNextPage: Boolean(formattedTransactions.length),
       }),
     );

@@ -30,10 +30,10 @@ const Day = styled(TextComponent)`
 type Props = {
   transactionsDate: string,
   transactions: Transaction[],
-  zecPrice: number,
+  bzcPrice: number,
 };
 
-export const TransactionDailyComponent = ({ transactionsDate, transactions, zecPrice }: Props) => (
+export const TransactionDailyComponent = ({ transactionsDate, transactions, bzcPrice }: Props) => (
   <Wrapper data-testid='TransactionsDaily'>
     <Day value={transactionsDate} />
     <TransactionsWrapper>
@@ -50,7 +50,7 @@ export const TransactionDailyComponent = ({ transactionsDate, transactions, zecP
               date={date}
               address={address || 'N/A'}
               amount={amount}
-              zecPrice={zecPrice}
+              bzcPrice={bzcPrice}
             />
           </Fragment>
         ),

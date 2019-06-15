@@ -1,6 +1,7 @@
 // @flow
+import { FETCH_STATE } from '../../constants/fetch-states';
 
-import type { Action } from '../../types/redux';
+import type { Action, FetchState } from '../../types/redux';
 import type { TransactionsList } from './transactions';
 
 // Actions
@@ -21,7 +22,7 @@ export const loadWalletSummarySuccess = ({
   unconfirmed,
   addresses,
   transactions,
-  zecPrice,
+  bzcPrice,
 }: {
   total: number,
   shielded: number,
@@ -29,7 +30,7 @@ export const loadWalletSummarySuccess = ({
   unconfirmed: number,
   addresses: string[],
   transactions: TransactionsList,
-  zecPrice: number,
+  bzcPrice: number,
 }) => ({
   type: LOAD_WALLET_SUMMARY_SUCCESS,
   payload: {
@@ -39,7 +40,7 @@ export const loadWalletSummarySuccess = ({
     unconfirmed,
     addresses,
     transactions,
-    zecPrice,
+    bzcPrice,
   },
 });
 
@@ -55,9 +56,10 @@ export type State = {
   unconfirmed: number,
   error: string | null,
   isLoading: boolean,
-  zecPrice: number,
+  bzcPrice: number,
   addresses: string[],
   transactions: TransactionsList,
+  fetchState: FetchState,
 };
 
 const initialState = {
@@ -67,25 +69,33 @@ const initialState = {
   unconfirmed: 0,
   error: null,
   isLoading: false,
-  zecPrice: 0,
+  bzcPrice: 0,
   addresses: [],
   transactions: [],
+  fetchState: FETCH_STATE.INITIALIZING,
 };
 
 // eslint-disable-next-line
 export default (state: State = initialState, action: Action) => {
   switch (action.type) {
     case LOAD_WALLET_SUMMARY:
-      return { ...state, isLoading: true };
+      return {
+        ...state,
+        fetchState: action.fetchState,
+      };
     case LOAD_WALLET_SUMMARY_SUCCESS:
       return {
         ...state,
         ...action.payload,
-        isLoading: false,
+        fetchState: 'SUCCESS',
         error: null,
       };
     case LOAD_WALLET_SUMMARY_ERROR:
-      return { ...state, isLoading: false, error: action.payload.error };
+      return {
+        ...state,
+        fetchState: 'ERROR',
+        error: action.payload.error,
+      };
     default:
       return state;
   }

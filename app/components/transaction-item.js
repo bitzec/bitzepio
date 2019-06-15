@@ -98,7 +98,7 @@ export type Transaction = {
   date: string,
   address: string,
   amount: number,
-  zecPrice: number,
+  bzcPrice: number,
   transactionId: string,
   theme: AppTheme,
 };
@@ -110,7 +110,7 @@ const Component = ({
   date,
   address,
   amount,
-  zecPrice,
+  bzcPrice,
   transactionId,
   theme,
 }: Transaction) => {
@@ -118,12 +118,12 @@ const Component = ({
 
   const isReceived = type === 'receive';
   const transactionTime = dateFns.format(new Date(date), 'HH:mm A');
-  const transactionValueInZec = formatNumber({
+  const transactionValueInBzc = formatNumber({
     value: amount,
     append: `${isReceived ? '+' : '-'}${coinName} `,
   });
   const transactionValueInUsd = formatNumber({
-    value: amount * zecPrice,
+    value: amount * bzcPrice,
     append: `${isReceived ? '+' : '-'}USD $`,
   });
 
@@ -162,7 +162,7 @@ const Component = ({
           <ColumnComponent alignItems='flex-end'>
             <TextComponent
               isBold
-              value={transactionValueInZec}
+              value={transactionValueInBzc}
               color={isReceived ? theme.colors.transactionReceived : theme.colors.transactionSent}
             />
             <TransactionLabel value={transactionValueInUsd} />
@@ -180,7 +180,7 @@ const Component = ({
           transactionId={transactionId}
           handleClose={toggleVisibility}
           type={type}
-          zecPrice={zecPrice}
+          bzcPrice={bzcPrice}
         />
       )}
     </ModalComponent>

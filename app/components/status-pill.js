@@ -27,6 +27,14 @@ const rotate = keyframes`
 `;
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+`;
+
+const StatusWrapper = styled.div`
   align-items: center;
   display: flex;
   background: ${props => props.theme.colors.statusPillBg};
@@ -90,6 +98,15 @@ const TooltipText = styled(TextComponent)`
   font-weight: 700;
 `;
 
+const RefetchingLabel = styled.p`
+  color: ${props => props.theme.colors.sidebarItem};
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: ${props => props.theme.fontFamily};
+  margin-right: 10px;
+`;
+
 type Props = {
   theme: AppTheme,
 } & MapStateToProps &
@@ -99,12 +116,15 @@ type State = {
   showTooltip: boolean,
 };
 
-const MINUTE_IN_MILI = 60000;
+const INTERVAL_AFTER_READY = 60000;
+const INTERVAL_BEFORE_READY = 10000;
 
 class Component extends PureComponent<Props, State> {
   timer: ?IntervalID = null;
 
-  constructor(props) {
+  requestOnTheFly: boolean = false;
+
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -113,26 +133,40 @@ class Component extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    const { getBlockchainStatus } = this.props;
-
-    this.timer = setInterval(() => getBlockchainStatus(), 2000);
+    this.timer = setInterval(() => this.updateStatus(), INTERVAL_BEFORE_READY);
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { getBlockchainStatus, nodeSyncType } = this.props;
+    const { nodeSyncType } = this.props;
     if (
       prevProps.nodeSyncType === NODE_SYNC_TYPES.SYNCING
       && nodeSyncType === NODE_SYNC_TYPES.READY
     ) {
       // if the status is "ready", we can increase the interval to avoid useless rpc calls
       this.cleanUpdateInterval();
-      this.timer = setInterval(() => getBlockchainStatus(), MINUTE_IN_MILI);
+      this.timer = setInterval(() => this.updateStatus(), INTERVAL_AFTER_READY);
     }
   }
 
   componentWillUnmount() {
     this.cleanUpdateInterval();
   }
+
+  updateStatus = () => {
+    if (this.requestOnTheFly) return;
+
+    this.requestOnTheFly = true;
+
+    const { getBlockchainStatus } = this.props;
+
+    getBlockchainStatus()
+      .then(() => {
+        this.requestOnTheFly = false;
+      })
+      .catch(() => {
+        this.requestOnTheFly = false;
+      });
+  };
 
   cleanUpdateInterval = () => {
     if (this.timer) {
@@ -202,26 +236,31 @@ class Component extends PureComponent<Props, State> {
 
   render() {
     const icon = this.getIcon();
-    const { nodeSyncType, nodeSyncProgress } = this.props;
+    const { nodeSyncType, nodeSyncProgress, isRefetching } = this.props;
     const { showTooltip } = this.state;
     const percent = nodeSyncType && nodeSyncType === NODE_SYNC_TYPES.SYNCING
       ? `(${nodeSyncProgress.toFixed(2)}%)`
       : '';
 
     return (
-      // eslint-disable-next-line
-      <Wrapper
-        onMouseOver={() => this.setState({ showTooltip: true })}
-        onMouseOut={() => this.setState({ showTooltip: false })}
-        id='status-pill'
-      >
-        {showTooltip && (
-          <Tooltip>
-            <TooltipText value={this.getStatusText()} />
-          </Tooltip>
-        )}
-        {icon && <Icon src={icon} animated={this.isSyncing()} />}
-        <StatusPillLabel value={`${this.getLabel()} ${percent}`} />
+      <Wrapper>
+        {isRefetching && <RefetchingLabel>Refetching...</RefetchingLabel>}
+        {
+          // eslint-disable-next-line
+          <StatusWrapper
+            onMouseOver={() => this.setState({ showTooltip: true })}
+            onMouseOut={() => this.setState({ showTooltip: false })}
+            id='status-pill'
+          >
+            {showTooltip && (
+              <Tooltip>
+                <TooltipText value={this.getStatusText()} />
+              </Tooltip>
+            )}
+            {icon && <Icon src={icon} animated={this.isSyncing()} />}
+            <StatusPillLabel value={`${this.getLabel()} ${percent}`} />
+          </StatusWrapper>
+        }
       </Wrapper>
     );
   }

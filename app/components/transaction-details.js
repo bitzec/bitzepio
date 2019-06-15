@@ -5,7 +5,7 @@ import styled, { withTheme } from 'styled-components';
 import dateFns from 'date-fns';
 import { BigNumber } from 'bignumber.js';
 
-import { BITZEC_EXPLORER_BASE_URL } from '../constants/explorer';
+import { BITBZC_EXPLORER_BASE_URL } from '../constants/explorer';
 import { DARK } from '../constants/themes';
 
 import SentIconDark from '../assets/images/transaction_sent_icon_dark.svg';
@@ -126,7 +126,7 @@ const TransactionId = styled.button`
 type Props = {
   amount: number,
   type: 'send' | 'receive',
-  zecPrice: number,
+  bzcPrice: number,
   date: string,
   transactionId: string,
   address: string,
@@ -139,7 +139,7 @@ type Props = {
 const Component = ({
   amount,
   type,
-  zecPrice,
+  bzcPrice,
   date,
   transactionId,
   address,
@@ -184,7 +184,7 @@ const Component = ({
         <TextComponent
           value={formatNumber({
             append: `${isReceived ? '+' : '-'}USD `,
-            value: new BigNumber(amount).times(zecPrice).toNumber(),
+            value: new BigNumber(amount).times(bzcPrice).toNumber(),
           })}
           size={1.5}
           color={theme.colors.transactionDetailsLabel({ theme })}
@@ -208,7 +208,7 @@ const Component = ({
       <InfoRow>
         <ColumnComponent width='100%'>
           <Label value='TRANSACTION ID' />
-          <TransactionId onClick={() => openExternal(BITZEC_EXPLORER_BASE_URL + transactionId)}>
+          <TransactionId onClick={() => openExternal(BITBZC_EXPLORER_BASE_URL + transactionId)}>
             <Ellipsis value={transactionId} />
           </TransactionId>
         </ColumnComponent>

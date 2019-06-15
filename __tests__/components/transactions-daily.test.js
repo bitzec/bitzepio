@@ -27,6 +27,7 @@ beforeAll(() => {
 });
 afterAll(() => {
   global.Date = originalDate;
+  // $FlowFixMe
   dateFns.format.mockRestore();
   cleanup();
 });
@@ -38,14 +39,14 @@ describe('<TransactionDailyComponent />', () => {
         <ThemeProvider theme={appTheme}>
           <TransactionDailyComponent
             transactionsDate='2019-02-20T19:31:57.117Z'
-            zecPrice={1.345}
+            bzcPrice={1.345}
             transactions={[
               {
                 type: 'receive',
                 transactionId: 's0a8das098fgh2348a',
                 address: '123456789123456789123456789123456789',
                 amount: 1.7891,
-                zecPrice: 1.345,
+                bzcPrice: 1.345,
                 date: '2019-02-20T19:31:57.117Z',
                 theme: appTheme,
                 fees: 0.0001,
@@ -57,7 +58,7 @@ describe('<TransactionDailyComponent />', () => {
                 transactionId: '0asd908fgj90f01',
                 address: '123456789123456789123456789123456789',
                 amount: 0.8458,
-                zecPrice: 1.344,
+                bzcPrice: 1.344,
                 date: '2019-02-20T19:31:57.117Z',
                 theme: appTheme,
                 fees: 0.0001,

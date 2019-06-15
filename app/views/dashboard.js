@@ -10,10 +10,12 @@ import { TextComponent } from '../components/text';
 import { EmptyTransactionsComponent } from '../components/empty-transactions';
 import { ConfirmDialogComponent } from '../components/confirm-dialog';
 import { ColumnComponent } from '../components/column';
+import { LoaderComponent } from '../components/loader';
 
 import store from '../../config/electron-store';
+import { FETCH_STATE } from '../constants/fetch-states';
 
-import type { TransactionsList } from '../redux/modules/transactions';
+import type { MapDispatchToProps, MapStateToProps } from '../containers/dashboard';
 
 import zepioLogo from '../assets/images/bitzec-icon.png';
 
@@ -57,18 +59,7 @@ const AdditionalText = styled(TextComponent)`
   font-size: 10px;
 `;
 
-type Props = {
-  getSummary: () => void,
-  total: number,
-  shielded: number,
-  transparent: number,
-  unconfirmed: number,
-  error: string | null,
-  zecPrice: number,
-  addresses: string[],
-  isDaemonReady: boolean,
-  transactions: TransactionsList,
-};
+type Props = MapDispatchToProps & MapStateToProps;
 
 const UPDATE_INTERVAL = 10000;
 const DISPLAY_WELCOME_MODAL = 'DISPLAY_WELCOME_MODAL';
@@ -94,28 +85,28 @@ export class DashboardView extends PureComponent<Props> {
 
   render() {
     const {
-      error,
       total,
       shielded,
       transparent,
       unconfirmed,
-      zecPrice,
+      bzcPrice,
       addresses,
       transactions,
+      fetchState,
     } = this.props;
 
-    if (error) {
-      return <TextComponent value={error} />;
+    if (fetchState === FETCH_STATE.INITIALIZING) {
+      return <LoaderComponent />;
     }
 
     return (
-      <Fragment>
+      <>
         <WalletSummaryComponent
           total={total}
           shielded={shielded}
           transparent={transparent}
           unconfirmed={unconfirmed}
-          zecPrice={zecPrice}
+          bzcPrice={bzcPrice}
           addresses={addresses}
         />
         {transactions.length === 0 ? (
@@ -125,7 +116,7 @@ export class DashboardView extends PureComponent<Props> {
             <TransactionDailyComponent
               transactionsDate={day}
               transactions={list}
-              zecPrice={zecPrice}
+              bzcPrice={bzcPrice}
               key={day}
             />
           ))
@@ -147,7 +138,7 @@ export class DashboardView extends PureComponent<Props> {
                 <ContentWrapper>
                   <LogoComponent src={zepioLogo} alt='Zepio' />
                   <TitleComponent value='Hello from Zepio' isBold />
-                  <WelcomeText value='Zepio is a cross-platform full-node Bitzec wallet that allows users to easily send and receive BZC. With first-class support for Sapling shielded addresses, users are able to create truly private transactions using a modern and intuitive interface.' />
+                  <WelcomeText value='Zepio is a cross-platform full-node Bitzec wallet that allows users to easily send and receive ZEC. With first-class support for Sapling shielded addresses, users are able to create truly private transactions using a modern and intuitive interface.' />
                   <WelcomeText value='Zepio aims to improve the user experience for those seeking true financial privacy online.' />
                   <AdditionalText value='Zepio will need to sync the Bitzec blockchain data before using all features.' />
                 </ContentWrapper>
@@ -155,7 +146,7 @@ export class DashboardView extends PureComponent<Props> {
             )}
           </ConfirmDialogComponent>
         )}
-      </Fragment>
+      </>
     );
   }
 }

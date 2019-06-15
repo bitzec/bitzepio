@@ -101,7 +101,7 @@ EOF
 function fetch_failure {
     cat >&2 <<EOF
 
-Failed to fetch the Bitzec zkSNARK parameters!
+Failed to fetch the Zcash/Bitzec zkSNARK parameters!
 Try installing one of the following programs and make sure you're online:
 
  * ipfs

@@ -14,7 +14,7 @@ import isDev from 'electron-is-dev';
 import { registerDebugShortcut } from '../utils/debug-shortcut';
 import runDaemon from './daemon/bitzecd-child-process';
 import { log as bitzecLog, cleanLogs } from './daemon/logger';
-import getZecPrice from '../services/bzc-price';
+import getBzcPrice from '../services/bzc-price';
 import store from './electron-store';
 import { handleDeeplink } from './handle-deeplink';
 import { MENU } from '../app/menu';
@@ -70,7 +70,7 @@ const createWindow = () => {
     },
   });
 
-  getZecPrice().then(({ USD }) => store.set('ZEC_DOLLAR_PRICE', String(USD)));
+  getBzcPrice().then(({ USD }) => store.set('BZC_DOLLAR_PRICE', String(USD)));
 
   mainWindow.setVisibleOnAllWorkspaces(true);
   registerDebugShortcut(app, mainWindow);

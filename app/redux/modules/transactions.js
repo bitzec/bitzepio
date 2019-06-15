@@ -1,7 +1,9 @@
 // @flow
 
 import uniqBy from 'lodash.uniqby';
-import type { Action } from '../../types/redux';
+import { FETCH_STATE } from '../../constants/fetch-states';
+
+import type { Action, FetchState } from '../../types/redux';
 import type { Transaction } from '../../components/transaction-item';
 
 // Actions
@@ -19,17 +21,17 @@ export const loadTransactions = () => ({
 
 export const loadTransactionsSuccess = ({
   list,
-  zecPrice,
+  bzcPrice,
   hasNextPage,
 }: {
   list: Transaction[],
-  zecPrice: number,
+  bzcPrice: number,
   hasNextPage: boolean,
 }) => ({
   type: LOAD_TRANSACTIONS_SUCCESS,
   payload: {
     list,
-    zecPrice,
+    bzcPrice,
     hasNextPage,
   },
 });
@@ -45,19 +47,19 @@ export const resetTransactionsList = () => ({
 });
 
 export type State = {
-  isLoading: boolean,
   error: string | null,
   list: Transaction[],
-  zecPrice: number,
+  bzcPrice: number,
   hasNextPage: boolean,
+  fetchState: FetchState,
 };
 
 const initialState = {
-  zecPrice: 0,
+  bzcPrice: 0,
   list: [],
   error: null,
-  isLoading: false,
   hasNextPage: true,
+  fetchState: FETCH_STATE.INITIALIZING,
 };
 
 // eslint-disable-next-line
@@ -67,26 +69,27 @@ export default (state: State = initialState, action: Action) => {
       return {
         ...state,
         error: null,
-        isLoading: true,
+        fetchState: action.fetchState,
       };
     case LOAD_TRANSACTIONS_SUCCESS:
       return {
         ...state,
         ...action.payload,
         list: uniqBy(state.list.concat(action.payload.list), tr => tr.transactionId + tr.type),
-        isLoading: false,
+        fetchState: FETCH_STATE.SUCCESS,
         error: null,
       };
     case LOAD_TRANSACTIONS_ERROR:
       return {
         ...state,
-        isLoading: false,
+        fetchState: FETCH_STATE.ERROR,
         error: action.payload.error,
       };
     case RESET_TRANSACTIONS_LIST:
       return {
         ...state,
         isLoading: false,
+        isRefreshing: false,
         error: null,
         list: [],
       };

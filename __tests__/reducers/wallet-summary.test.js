@@ -17,7 +17,7 @@ describe('WalletSummary Reducer', () => {
       unconfirmed: 0,
       error: null,
       isLoading: false,
-      zecPrice: 0,
+      bzcPrice: 0,
     };
     const action = {
       type: 'UNKNOWN_ACTION',
@@ -41,7 +41,7 @@ describe('WalletSummary Reducer', () => {
       unconfirmed: 0,
       error: null,
       isLoading: true,
-      zecPrice: 0,
+      bzcPrice: 0,
     };
 
     expect(walletSummaryReducer(undefined, action)).toEqual(expectedState);
@@ -63,7 +63,7 @@ describe('WalletSummary Reducer', () => {
       isLoading: false,
       addresses: [],
       transactions: [],
-      zecPrice: 0,
+      bzcPrice: 0,
     };
 
     expect(walletSummaryReducer(undefined, action)).toEqual(expectedState);
@@ -85,7 +85,7 @@ describe('WalletSummary Reducer', () => {
       isLoading: false,
       addresses: [],
       transactions: [],
-      zecPrice: 0,
+      bzcPrice: 0,
     };
 
     expect(walletSummaryReducer(undefined, action)).toEqual(expectedState);

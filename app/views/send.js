@@ -9,6 +9,7 @@ import { type Match } from 'react-router-dom';
 import { FEES } from '../constants/fees';
 import { DARK } from '../constants/themes';
 import { NODE_SYNC_TYPES } from '../constants/node-sync-types';
+import { FETCH_STATE } from '../constants/fetch-states';
 
 import { InputLabelComponent } from '../components/input-label';
 import { InputComponent } from '../components/input';
@@ -19,6 +20,7 @@ import { ColumnComponent } from '../components/column';
 import { Divider } from '../components/divider';
 import { Button } from '../components/button';
 import { ConfirmDialogComponent } from '../components/confirm-dialog';
+import { LoaderComponent } from '../components/loader';
 
 import { formatNumber } from '../utils/format-number';
 import { ascii2hex } from '../utils/ascii-to-hexadecimal';
@@ -190,7 +192,7 @@ const ValidateItemLabel = styled(ItemLabel)`
   margin-bottom: -1px;
 `;
 
-const SendZECValue = styled(TextComponent)`
+const SendBZCValue = styled(TextComponent)`
   color: ${props => props.theme.colors.transactionSent};
   font-size: ${props => `${props.theme.fontSize.large}em`};
   font-weight: ${props => String(props.theme.fontWeight.bold)};
@@ -429,12 +431,12 @@ class Component extends PureComponent<Props, State> {
 
   componentDidMount() {
     const {
-      resetSendView, loadAddresses, loadZECPrice, match,
+      resetSendView, loadAddresses, loadBZCPrice, match,
     } = this.props;
 
     resetSendView();
     loadAddresses();
-    loadZECPrice();
+    loadBZCPrice();
 
     if (match.params.to) {
       this.handleChange('to')(match.params.to);
@@ -594,6 +596,12 @@ class Component extends PureComponent<Props, State> {
     );
   };
 
+  getLoadingIcon = () => {
+    const { theme } = this.props;
+
+    return theme.mode === DARK ? LoadingIconDark : LoadingIconLight;
+  };
+
   renderModalContent = ({
     valueSent,
     valueSentInUsd,
@@ -606,12 +614,10 @@ class Component extends PureComponent<Props, State> {
     /* eslint-enable react/no-unused-prop-types */
   }) => {
     // eslint-disable-next-line react/prop-types
-    const {
-      operationId, isSending, error, theme,
-    } = this.props;
+    const { operationId, isSending, error } = this.props;
     const { from, to } = this.state;
 
-    const loadingIcon = theme.mode === DARK ? LoadingIconDark : LoadingIconLight;
+    const loadingIcon = this.getLoadingIcon();
 
     if (isSending) {
       return (
@@ -664,7 +670,7 @@ class Component extends PureComponent<Props, State> {
         <ConfirmItemWrapper alignItems='center'>
           <ColumnComponent>
             <ItemLabel value='AMOUNT' />
-            <SendZECValue value={`-${valueSent}`} />
+            <SendBZCValue value={`-${valueSent}`} />
             <SendUSDValue value={`-${valueSentInUsd}`} />
           </ColumnComponent>
           <ColumnComponent>
@@ -733,12 +739,13 @@ class Component extends PureComponent<Props, State> {
     const {
       addresses,
       balance,
-      zecPrice,
+      bzcPrice,
       isSending,
       error,
       operationId,
       theme,
       nodeSyncType,
+      fetchState,
     } = this.props;
     const {
       showFee,
@@ -752,6 +759,10 @@ class Component extends PureComponent<Props, State> {
       showBalanceTooltip,
     } = this.state;
 
+    if (fetchState === FETCH_STATE.INITIALIZING) {
+      return <LoaderComponent />;
+    }
+
     const isEmpty = amount === '';
 
     const fixedAmount = isEmpty || new BigNumber(amount).eq(0) ? 0 : this.getAmountWithFee();
@@ -759,7 +770,7 @@ class Component extends PureComponent<Props, State> {
 
     const zecBalance = formatNumber({ value: balance, append: `${coinName} ` });
     const zecBalanceInUsd = formatNumber({
-      value: new BigNumber(balance).times(zecPrice).toNumber(),
+      value: new BigNumber(balance).times(bzcPrice).toNumber(),
       append: 'USD $',
     });
     const valueSent = formatNumber({
@@ -767,7 +778,7 @@ class Component extends PureComponent<Props, State> {
       append: `${coinName} `,
     });
     const valueSentInUsd = formatNumber({
-      value: new BigNumber(fixedAmount).times(zecPrice).toNumber(),
+      value: new BigNumber(fixedAmount).times(bzcPrice).toNumber(),
       append: 'USD $',
     });
 

@@ -9,14 +9,14 @@ import {
   RESET_SEND_TRANSACTION,
   VALIDATE_ADDRESS_SUCCESS,
   VALIDATE_ADDRESS_ERROR,
-  LOAD_ZEC_PRICE,
+  LOAD_BZC_PRICE,
   sendTransaction,
   sendTransactionSuccess,
   sendTransactionError,
   resetSendTransaction,
   validateAddressSuccess,
   validateAddressError,
-  loadZECPrice,
+  loadBZCPrice,
 } from '../../app/redux/modules/send';
 
 const store = configureStore()();
@@ -104,11 +104,11 @@ describe('Send Actions', () => {
       value: 1.35,
     };
 
-    store.dispatch(loadZECPrice(payload));
+    store.dispatch(loadBZCPrice(payload));
 
     expect(store.getActions()[0]).toEqual(
       expect.objectContaining({
-        type: LOAD_ZEC_PRICE,
+        type: LOAD_BZC_PRICE,
         payload,
       }),
     );

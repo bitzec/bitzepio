@@ -61,7 +61,7 @@ const checkSha256 = (pathToFile: string, expectedHash: string) => new Promise((r
 
 // eslint-disable-next-line max-len
 const downloadFile = ({ file, pathToSave }): Promise<*> => new Promise((resolve, reject) => {
-  if (!mainWindow.isDestroyed()) mainWindow.webContents.send('bitzecd-params-download', `Downloading ${file.name}...`);
+  if (!mainWindow.isDestroyed()) mainWindow.webContents.send('zcashd-params-download', `Downloading ${file.name}...`);
   log(`Downloading ${file.name}...`);
 
   httpClient

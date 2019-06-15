@@ -9,7 +9,7 @@ import rpc from '../../services/api';
 import { SendView } from '../views/send';
 
 import {
-  loadZECPrice,
+  loadBZCPrice,
   sendTransaction,
   sendTransactionSuccess,
   sendTransactionError,
@@ -26,9 +26,9 @@ import { getLatestAddressKey } from '../utils/get-latest-address-key';
 import { saveShieldedTransaction } from '../../services/shielded-transactions';
 
 import type { AppState } from '../types/app-state';
-import type { Dispatch } from '../types/redux';
+import type { Dispatch, FetchState } from '../types/redux';
 
-import { loadAddressesSuccess, loadAddressesError } from '../redux/modules/receive';
+import { loadAddresses, loadAddressesSuccess, loadAddressesError } from '../redux/modules/receive';
 
 export type SendTransactionInput = {
   from: string,
@@ -40,9 +40,10 @@ export type SendTransactionInput = {
 
 export type MapStateToProps = {|
   balance: number,
-  zecPrice: number,
+  bzcPrice: number,
   addresses: { address: string, balance: number }[],
   error: string | null,
+  fetchState: FetchState,
   isSending: boolean,
   operationId: string | null,
   isToAddressValid: boolean,
@@ -51,9 +52,10 @@ export type MapStateToProps = {|
 
 const mapStateToProps = ({ sendStatus, receive, app }: AppState): MapStateToProps => ({
   balance: sendStatus.addressBalance,
-  zecPrice: sendStatus.zecPrice,
+  bzcPrice: sendStatus.bzcPrice,
   addresses: receive.addresses,
   error: sendStatus.error,
+  fetchState: receive.fetchState,
   isSending: sendStatus.isSending,
   operationId: sendStatus.operationId,
   isToAddressValid: sendStatus.isToAddressValid,
@@ -65,7 +67,7 @@ export type MapDispatchToProps = {|
   loadAddresses: () => Promise<void>,
   resetSendView: () => void,
   validateAddress: ({ address: string }) => Promise<void>,
-  loadZECPrice: () => void,
+  loadBZCPrice: () => void,
   getAddressBalance: ({ address: string }) => Promise<void>,
 |};
 
@@ -160,6 +162,8 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     return dispatch(validateAddressError());
   },
   loadAddresses: async () => {
+    dispatch(loadAddresses());
+
     const [zAddressesErr, zAddresses] = await eres(rpc.z_listaddresses());
 
     const [tAddressesErr, transparentAddresses] = await eres(rpc.getaddressesbyaccount(''));
@@ -202,9 +206,9 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
       }),
     );
   },
-  loadZECPrice: () => dispatch(
-    loadZECPrice({
-      value: Number(store.get('ZEC_DOLLAR_PRICE')),
+  loadBZCPrice: () => dispatch(
+    loadBZCPrice({
+      value: Number(store.get('BZC_DOLLAR_PRICE')),
     }),
   ),
   getAddressBalance: async ({ address }: { address: string }) => {

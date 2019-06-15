@@ -96,7 +96,7 @@ export class TransactionsView extends PureComponent<Props> {
   };
 
   renderTransactions = ({ index }: { index: number }) => {
-    const { transactions, zecPrice } = this.props;
+    const { transactions, bzcPrice } = this.props;
 
     const transaction = transactions[index];
     const previousTransaction = transactions[index - 1];
@@ -115,7 +115,7 @@ export class TransactionsView extends PureComponent<Props> {
           date={transaction.date}
           transactionId={transaction.transactionId}
           type={transaction.type}
-          zecPrice={zecPrice}
+          bzcPrice={bzcPrice}
         />
       ),
       index,

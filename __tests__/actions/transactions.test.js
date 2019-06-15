@@ -29,7 +29,7 @@ describe('Transactions Actions', () => {
   test('should create an action to load transactions with success', () => {
     const payload = {
       list: [],
-      zecPrice: 0,
+      bzcPrice: 0,
       hasNextPage: false,
     };
 
