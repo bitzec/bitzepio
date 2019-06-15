@@ -18,10 +18,10 @@ describe('Startup', () => {
     expect(app.client.getTitle()).resolves.toEqual('Zepio');
   });
 
-  test('should show the text "Zepio Starting" in loading screen', async () => {
+  test('should show the text "Bitzec Starting" in loading screen', async () => {
     expect(
       app.client.element('div[data-testid~="LoadingScreen"]:first-child p').getHTML(),
-    ).resolves.toEqual(expect.stringContaining('Zepio Starting'));
+    ).resolves.toEqual(expect.stringContaining('Bitzec Starting'));
   });
 
   test('should show the zcash logo in loading screen', () => expect(

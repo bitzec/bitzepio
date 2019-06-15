@@ -120,7 +120,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
 
   sendToRenderer('bitzec-daemon-status', {
     error: false,
-    status: 'Zepio Starting',
+    status: 'Bitzec Starting',
   });
 
   // In case of --relaunch on argv, we need wait to close the old bitzec daemon
