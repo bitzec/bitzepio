@@ -29,16 +29,7 @@ import {
   BITZEC_NETWORK,
   TESTNET,
   MAINNET,
-} from '../../app/constants/bitzec-network';
-import { parseMasternodeConf } from './parse-masternode-conf';
 
-try {
-  if (fs.existsSync(locateMasternodeConf)) {
-    store.set('');
-  }
-} catch (err) {
-  log('No masternode config');
-}
 const getDaemonOptions = ({
   username, password, useDefaultBitzecConf, optionsFromBitzecConf,
 }) => {
@@ -137,8 +128,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
 
   // This will parse and save rpcuser and rpcpassword in the store
   let [, optionsFromBitzecConf] = await eres(parseBitzecConf());
-  const [, configFromMasternodeConf] = await eres(parseMasternodeConf());
-  store.set('masternode_conf', configFromMasternodeConf);
+  
 
   // if the user has a custom datadir and doesn't have a bitzec.conf in that folder,
   // we need to use the default bitzec.conf
