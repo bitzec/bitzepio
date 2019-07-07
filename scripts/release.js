@@ -38,15 +38,15 @@ const getFileName = (name) => {
 
   switch (extension) {
     case 'dmg':
-      return `Bitzecio-macOS-v${VERSION}.dmg`;
+      return `Bitzecpio-macOS-v${VERSION}.dmg`;
     case 'deb':
-      return `Bitzecio-linux-v${VERSION}.deb`;
+      return `Bitzecpio-linux-v${VERSION}.deb`;
     case 'exe':
-      return `Bitzecio-Windows-v${VERSION}.exe`;
+      return `Bitzecpio-Windows-v${VERSION}.exe`;
     case 'zip':
       return `signatures-v${VERSION}.zip`;
     default:
-      return 'Bitzecio';
+      return 'Bitzecpio';
   }
 };
 
