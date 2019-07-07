@@ -10,7 +10,6 @@ IF NOT EXIST %AppData%\ZcashParams (
 
 IF NOT EXIST %AppData%\Bitzec\bitzec.conf (
    (
-    echo addnode=35.242.189.203
     echo addnode=bzcseed.raptorpool.org
     echo rpcuser=username
     echo rpcpassword=password%random%%random%

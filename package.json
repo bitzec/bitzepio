@@ -1,7 +1,6 @@
 {
-  "name": "zepio",
-  "productName": "Zepio",
-  "version": "0.7.3",
+  "name": "bitzecio",
+  "version": "0.6.4",
   "description": "Zepio | Cross-platform sapling-enabled full-node Bitzec wallet",
   "main": "config/main.js",
   "license": "MIT",

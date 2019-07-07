@@ -99,7 +99,7 @@ describe('Send Actions', () => {
     );
   });
 
-  test('should load BZC price', () => {
+  test('should load ZEC price', () => {
     const payload = {
       value: 1.35,
     };
