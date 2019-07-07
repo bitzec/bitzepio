@@ -116,9 +116,9 @@ const handler = (server) => {
 };
 
 createTestServer({
-  httpPort: '8332',
+  httpPort: '8232',
 }).then(handler);
 
 createTestServer({
-  httpPort: '18332',
+  httpPort: '18232',
 }).then(handler);

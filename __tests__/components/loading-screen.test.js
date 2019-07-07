@@ -14,7 +14,7 @@ describe('<LoadingScreen />', () => {
   test('should render status pill correctly', () => {
     const { queryByTestId } = render(
       <ThemeProvider theme={appTheme}>
-        <LoadingScreen progress={83.0} message='BZC Wallet Starting' />
+        <LoadingScreen progress={83.0} message='ZEC Wallet Starting' />
       </ThemeProvider>,
     );
 

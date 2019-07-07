@@ -52,7 +52,7 @@ const initialState: State = {
   error: null,
   nodeSyncProgress: 0,
   nodeSyncType: NODE_SYNC_TYPES.SYNCING,
-  bitzecNetwork: electronStore.get(BITZ_NETWORK),
+  bitzecNetwork: electronStore.get(BITZEC_NETWORK),
   embeddedDaemon: electronStore.get(EMBEDDED_DAEMON),
 };
 
