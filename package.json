@@ -148,8 +148,8 @@
     "flow:precommit"
   ],
   "build": {
-    "appId": "com.commerciumblockchain",
-    "productName": "Millennium",
+    "appId": "com.bitzecpio",
+    "productName": "Bitecio",
     "asar": true,
     "directories": {
       "buildResources": "build",
