@@ -17,7 +17,7 @@ const DIST_FOLDER = path.join(__dirname, '..', './dist');
 const VERSION = packageJson.version;
 const GH_TOKEN = process.env.GH_TOKEN;
 const OWNER = 'andrerfneves';
-const PROJECT = 'bitzecio';
+const PROJECT = 'bitzecpio';
 
 const octokit = new Octokit({ auth: GH_TOKEN });
 

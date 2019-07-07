@@ -1,7 +1,7 @@
 {
-  "name": "bitzepio",
+  "name": "bitzecpio",
   "version": "0.6.4",
-  "description": "Bitzepio | Cross-platform sapling-enabled full-node Bitzec wallet",
+  "description": "Bitzecpio | Cross-platform sapling-enabled full-node Bitzec wallet",
   "main": "config/main.js",
   "license": "MIT",
   "homepage": "https://zepiowallet.com",
