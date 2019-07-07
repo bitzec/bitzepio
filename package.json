@@ -32,87 +32,17 @@
     "e2e:serve": "node -r @babel/register ./__tests__/setup/mockAPI.js",
     "e2e:run": "yarn test e2e"
   },
-  "pre-commit": [
-    "flow:generate-coverage-badge",
-    "lint:precommit",
-    "flow:precommit"
-  ],
-  "build": {
-    "appId": "com.zcashfoundation",
-    "productName": "Zepio",
-    "asar": true,
-    "directories": {
-      "buildResources": "build",
-      "output": "dist"
-    },
-    "files": [
-      "node_modules/",
-      "services/",
-      "config/",
-      "utils/",
-      "app/",
-      "bin/",
-      "public/",
-      "build/"
-    ],
-    "extraFiles": [
-      {
-        "from": "bin/",
-        "to": "resources/bin",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "linux": {
-      "icon": "./build/icons/png",
-      "target": [
-        "deb"
-      ]
-    },
-    "deb": {
-      "depends": [
-        "gconf2",
-        "gconf-service",
-        "libnotify4",
-        "libappindicator1",
-        "libxtst6",
-        "libnss3"
-      ]
-    },
-    "mac": {
-      "category": "public.app-category.productivity",
-      "type": "distribution",
-      "target": [
-        "dmg"
-      ],
-      "icon": "./build/icons/mac/icon.icns"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "./build/icons/win/icon.ico"
-    },
-    "protocols": {
-      "name": "zcash",
-      "schemes": [
-        "zcash"
-      ]
-    }
+  "author": {
+    "name": "André Neves",
+    "email": "andrerfneves@protonmail.com",
+    "url": "https://andrenev.es"
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/__tests__/setup/jest.js"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/__tests__/setup/"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__tests__/setup/assetTransformer.js"
-    }
-  },
-  "resolutions": {
-    "babel-core": "7.0.0-bridge.0"
-  },
+  "contributors": [{
+    "name": "Commercium Team",
+    "email": "info@commercium.net",
+    "url": "https://www.commercium.net"
+  }],
+  "private": true,
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -173,7 +103,6 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
-    "@astrocoders/create-test-server": "^3.0.2",
     "@babel/core": "^7.0.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/register": "^7.0.0",
@@ -189,7 +118,8 @@
     "electron-updater": "^4.0.4",
     "eres": "^1.0.1",
     "find-process": "^1.2.1",
-    "got": "^9.6.0",
+    "got": "^9.3.2",
+    "hdkey": "^1.1.1",
     "history": "^4.7.2",
     "lodash.flow": "^3.5.0",
     "lodash.groupby": "^4.6.0",
@@ -211,3 +141,76 @@
     "styled-components": "^4.1.1",
     "styled-theming": "^2.2.0",
     "uuid": "^3.3.2"
+  },
+  "pre-commit": [
+    "flow:generate-coverage-badge",
+    "lint:precommit",
+    "flow:precommit"
+  ],
+  "build": {
+    "appId": "com.commerciumblockchain",
+    "productName": "Millennium",
+    "asar": true,
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "files": [
+      "node_modules/",
+      "services/",
+      "config/",
+      "utils/",
+      "app/",
+      "bin/",
+      "public/",
+      "build/"
+    ],
+    "extraFiles": [
+      {
+        "from": "bin/",
+        "to": "resources/bin",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "linux": {
+      "icon": "./build/icons/png",
+      "target": [
+        "deb"
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "type": "distribution",
+      "target": [
+        "dmg"
+      ],
+      "icon": "./build/icons/mac/icon.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "./build/icons/win/icon.ico"
+    },
+    "protocols": {
+      "name": "commercium",
+      "schemes": [
+        "commercium"
+      ]
+    }
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/setup/jest.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/__tests__/setup/"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__tests__/setup/assetTransformer.js"
+    }
+  },
+  "resolutions": {
+    "babel-core": "7.0.0-bridge.0"
+  }
+}
