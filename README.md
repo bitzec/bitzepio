@@ -122,4 +122,5 @@ In order to contribute and submit PRs to improve the **Zepio** codebase, please 
 
 ## License
 
-MIT © Bitzec Foundation 2019 [zfnd.org](zfnd.org)
+MIT © zcash Foundation 2019 [zfnd.org](zfnd.org)
+2019 Bitzec
