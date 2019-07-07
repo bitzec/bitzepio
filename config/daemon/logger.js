@@ -7,7 +7,7 @@ const getLogsFileName = () => path.join(app.getPath('userData'), 'main-process-l
 
 // eslint-disable-next-line no-console
 export const log = (...message: Array<*>) => {
-  console.log('[Bitzec Daemon]', ...message); // eslint-disable-line
+  console.log('[Bitzecd Daemon]', ...message); // eslint-disable-line
   fs.appendFileSync(
     getLogsFileName(),
     message
