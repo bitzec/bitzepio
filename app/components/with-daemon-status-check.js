@@ -32,7 +32,7 @@ export const withDaemonStatusCheck = <PassedProps: {}>(
       this.runTest();
       this.timer = setInterval(this.runTest, 2000);
 
-      electron.ipcRenderer.on('commercium-daemon-status', (event: empty, message: Object) => {
+      electron.ipcRenderer.on('bitzec-daemon-status', (event: empty, message: Object) => {
         this.hasDaemonError = message.error;
 
         if (message.error) {
