@@ -18,13 +18,13 @@ describe('Startup', () => {
     expect(app.client.getTitle()).resolves.toEqual('Zepio');
   });
 
-  test('should show the text "Zepio Starting" in loading screen', async () => expect(app.client.element('#loading-screen:first-child p').getHTML()).resolves.toEqual(
-    expect.stringContaining('Zepio Starting'),
+  test('should show the text "Bitzec Starting" in loading screen', async () => expect(app.client.element('#loading-screen:first-child p').getHTML()).resolves.toEqual(
+    expect.stringContaining('Bitzec Starting'),
   ));
 
-  test('should show the bitzec logo in loading screen', () => expect(
-    app.client.getAttribute('div[data-testid~="LoadingScreen"]:first-child img', 'src'),
-  ).resolves.toEqual(expect.stringContaining('/assets/bitzec-simple-icon.svg')));
+  test('should show the bitzec logo in loading screen', () => expect(app.client.getAttribute('#loading-screen:first-child img', 'src')).resolves.toEqual(
+    expect.stringContaining('/assets/bitzec-simple-icon.svg'),
+  ));
 
   test('should show the loading circle in loading screen', () => {
     expect(app.client.element('#loading-screen svg').isExisting()).resolves.toEqual(true);

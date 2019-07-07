@@ -1,6 +1,6 @@
 // @flow
 
-import getBZCPrice from '../../services/zec-price';
+import getBZCPrice from '../../services/bzc-price';
 
 describe('ZEC PRICE Services', () => {
   test('should return the right value', async () => {
