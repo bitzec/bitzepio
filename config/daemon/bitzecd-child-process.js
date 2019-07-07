@@ -168,6 +168,11 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
 
     if (user) store.set('rpcuser', user);
     if (password) store.set('rpcpassword', password);
+    if (!port) {
+      store.set('rpcport', 12020);
+    } else {
+      store.set('rpcport', port);
+    }
 
     return resolve();
   }
