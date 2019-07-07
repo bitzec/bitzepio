@@ -1,5 +1,5 @@
 {
-  "name": "bitzecio",
+  "name": "bitzepio",
   "version": "0.6.4",
   "description": "Bitzepio | Cross-platform sapling-enabled full-node Bitzec wallet",
   "main": "config/main.js",
@@ -148,8 +148,8 @@
     "flow:precommit"
   ],
   "build": {
-    "appId": "com.bitzecblockchain",
-    "productName": "Bitzepio",
+    "appId": "com.commerciumblockchain",
+    "productName": "Millennium",
     "asar": true,
     "directories": {
       "buildResources": "build",

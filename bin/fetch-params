@@ -20,7 +20,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
   fi
   if [ -e "$HOME/Library/Application Support/Bitzec/wallet.dat" ] ; then
-    cp "$HOME/Library/Application Support/Bitzec/wallet.dat" "$HOME/Library/Application Support/Bitzec/wallet.dat.backup.millennium"
+    cp "$HOME/Library/Application Support/Bitzec/wallet.dat" "$HOME/Library/Application Support/Bitzec/wallet.dat.backup.bitzec"
   fi
 else
   if [ ! -e "$HOME/.bitzec/bitzec.conf" ] ; then
@@ -33,7 +33,7 @@ else
     echo "txindex=1" >> "$HOME/.bitzec/bitzec.conf"
     echo "showmetrics=0" >> "$HOME/.bitzec/bitzec.conf"
     echo "gen=0" >> "$HOME/.bitzec/bitzec.conf"
-  
+
   fi
   if [ -e "$HOME/.bitzec/wallet.dat" ] ; then
     cp -p "$HOME/.bitzec/wallet.dat" "$HOME/.bitzec/wallet.dat.backup.bitzec"

@@ -76,7 +76,7 @@ export const withDaemonStatusCheck = <PassedProps: {}>(
         .catch((error) => {
           if (this.hasDaemonError) return;
 
-          const statusMessage = error.message === 'Something went wrong' ? 'Millennium Starting' : error.message;
+          const statusMessage = error.message === 'Something went wrong' ? 'Bitzec Starting' : error.message;
 
           const isRpcOff = Math.trunc(error.statusCode / 100) === 5;
 
