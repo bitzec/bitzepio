@@ -69,7 +69,7 @@ const createWindow = () => {
     },
   });
 
-  getBZCPrice().then(({ USD }) => store.set('BZC_DOLLAR_PRICE', String(USD)));
+  getBZCPrice().then(({ usd }) => store.set('BZC_DOLLAR_PRICE', String(USD)));
 
   mainWindow.setVisibleOnAllWorkspaces(true);
   registerDebugShortcut(app, mainWindow);

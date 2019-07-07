@@ -193,9 +193,9 @@
       "icon": "./build/icons/win/icon.ico"
     },
     "protocols": {
-      "name": "commercium",
+      "name": "bitzec",
       "schemes": [
-        "commercium"
+        "bitzec"
       ]
     }
   },
