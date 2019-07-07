@@ -1,6 +1,6 @@
 // @flow
 
-export const BITBZC_NETWORK = 'BITBZC_NETWORK';
+export const BITZEC_NETWORK = 'BITZEC_NETWORK';
 export const EMBEDDED_DAEMON = 'EMBEDDED_DAEMON';
 
 export const MAINNET = 'MAINNET';
