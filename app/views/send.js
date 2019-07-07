@@ -9,7 +9,6 @@ import { type Match } from 'react-router-dom';
 import { FEES } from '../constants/fees';
 import { DARK } from '../constants/themes';
 import { NODE_SYNC_TYPES } from '../constants/node-sync-types';
-import { FETCH_STATE } from '../constants/fetch-states';
 
 import { InputLabelComponent } from '../components/input-label';
 import { InputComponent } from '../components/input';
@@ -20,7 +19,6 @@ import { ColumnComponent } from '../components/column';
 import { Divider } from '../components/divider';
 import { Button } from '../components/button';
 import { ConfirmDialogComponent } from '../components/confirm-dialog';
-import { LoaderComponent } from '../components/loader';
 
 import { formatNumber } from '../utils/format-number';
 import { ascii2hex } from '../utils/ascii-to-hexadecimal';
@@ -89,7 +87,7 @@ const AmountWrapper = styled.div`
 `;
 
 const AmountInput = styled(InputComponent)`
-  padding-left: ${(props: AmountProps) => (props.isEmpty ? '15' : '50')}px;
+  padding-left: ${(props: AmountProps) => (props.isEmpty ? '15' : '55')}px;
 `;
 
 const ShowFeeButton = styled.button`
@@ -192,7 +190,7 @@ const ValidateItemLabel = styled(ItemLabel)`
   margin-bottom: -1px;
 `;
 
-const SendBZCValue = styled(TextComponent)`
+const SendZECValue = styled(TextComponent)`
   color: ${props => props.theme.colors.transactionSent};
   font-size: ${props => `${props.theme.fontSize.large}em`};
   font-weight: ${props => String(props.theme.fontWeight.bold)};
@@ -614,10 +612,12 @@ class Component extends PureComponent<Props, State> {
     /* eslint-enable react/no-unused-prop-types */
   }) => {
     // eslint-disable-next-line react/prop-types
-    const { operationId, isSending, error } = this.props;
+    const {
+      operationId, isSending, error, theme,
+    } = this.props;
     const { from, to } = this.state;
 
-    const loadingIcon = this.getLoadingIcon();
+    const loadingIcon = theme.mode === DARK ? LoadingIconDark : LoadingIconLight;
 
     if (isSending) {
       return (
@@ -670,7 +670,7 @@ class Component extends PureComponent<Props, State> {
         <ConfirmItemWrapper alignItems='center'>
           <ColumnComponent>
             <ItemLabel value='AMOUNT' />
-            <SendBZCValue value={`-${valueSent}`} />
+            <SendZECValue value={`-${valueSent}`} />
             <SendUSDValue value={`-${valueSentInUsd}`} />
           </ColumnComponent>
           <ColumnComponent>
@@ -745,7 +745,6 @@ class Component extends PureComponent<Props, State> {
       operationId,
       theme,
       nodeSyncType,
-      fetchState,
     } = this.props;
     const {
       showFee,
@@ -758,10 +757,6 @@ class Component extends PureComponent<Props, State> {
       isHexMemo,
       showBalanceTooltip,
     } = this.state;
-
-    if (fetchState === FETCH_STATE.INITIALIZING) {
-      return <LoaderComponent />;
-    }
 
     const isEmpty = amount === '';
 

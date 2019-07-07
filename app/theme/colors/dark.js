@@ -23,7 +23,7 @@ const woodsmoke = '#222222';
 const heavyMetal = '#0A0A0A';
 
 // Colors
-const saffron = '#F4B728';
+const cornflowerBlue = '#5684EB';
 const brightSun = '#FFE240';
 const offBrand = 'rgba(238,201,76,0.65)';
 const error = '#FF6C6C';
@@ -71,7 +71,7 @@ export const DARK_COLORS = {
   buttonPrimaryDisabledBg: saffron,
   buttonPrimaryText: black,
   buttonSecondaryBg: gray,
-  buttonSecondaryDisabledBg: saffron,
+  buttonSecondaryDisabledBg: cornflowerBlue,
   buttonSecondaryText: black,
   buttonSecondaryBorder: gray,
   buttonSecondaryHoveredBg: silver,
@@ -103,8 +103,8 @@ export const DARK_COLORS = {
   // Sidebar
   sidebarBg: black,
   sidebarBorderRight: black,
-  sidebarLogoGradientBegin: saffron,
-  sidebarLogoGradientEnd: brightSun,
+  sidebarLogoGradientBegin: black,
+  sidebarLogoGradientEnd: black,
   sidebarHoveredItemLabel: manatee,
   sidebarActiveItemBorder: error,
   sidebarItem: scorpion,

@@ -46,8 +46,6 @@ const defaultState = `
   Block height | 0
   Connections | 0
   Network solution rate | 0 Sol/s
-  You are currently not mining.
-  To enable mining, add 'gen=1' to your bitzec.conf and restart.
 
   Since starting this node 0 minutes, 0 seconds ago:
 - You have validated 0 transactions!

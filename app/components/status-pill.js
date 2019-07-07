@@ -27,14 +27,6 @@ const rotate = keyframes`
 `;
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: center;
-  height: 100%;
-`;
-
-const StatusWrapper = styled.div`
   align-items: center;
   display: flex;
   background: ${props => props.theme.colors.statusPillBg};
@@ -98,15 +90,6 @@ const TooltipText = styled(TextComponent)`
   font-weight: 700;
 `;
 
-const RefetchingLabel = styled.p`
-  color: ${props => props.theme.colors.sidebarItem};
-  font-size: 10px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  font-family: ${props => props.theme.fontFamily};
-  margin-right: 10px;
-`;
-
 type Props = {
   theme: AppTheme,
 } & MapStateToProps &
@@ -116,15 +99,12 @@ type State = {
   showTooltip: boolean,
 };
 
-const INTERVAL_AFTER_READY = 60000;
-const INTERVAL_BEFORE_READY = 10000;
+const MINUTE_IN_MILI = 60000;
 
 class Component extends PureComponent<Props, State> {
   timer: ?IntervalID = null;
 
-  requestOnTheFly: boolean = false;
-
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -133,40 +113,26 @@ class Component extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    this.timer = setInterval(() => this.updateStatus(), INTERVAL_BEFORE_READY);
+    const { getBlockchainStatus } = this.props;
+
+    this.timer = setInterval(() => getBlockchainStatus(), 2000);
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { nodeSyncType } = this.props;
+    const { getBlockchainStatus, nodeSyncType } = this.props;
     if (
       prevProps.nodeSyncType === NODE_SYNC_TYPES.SYNCING
       && nodeSyncType === NODE_SYNC_TYPES.READY
     ) {
       // if the status is "ready", we can increase the interval to avoid useless rpc calls
       this.cleanUpdateInterval();
-      this.timer = setInterval(() => this.updateStatus(), INTERVAL_AFTER_READY);
+      this.timer = setInterval(() => getBlockchainStatus(), MINUTE_IN_MILI);
     }
   }
 
   componentWillUnmount() {
     this.cleanUpdateInterval();
   }
-
-  updateStatus = () => {
-    if (this.requestOnTheFly) return;
-
-    this.requestOnTheFly = true;
-
-    const { getBlockchainStatus } = this.props;
-
-    getBlockchainStatus()
-      .then(() => {
-        this.requestOnTheFly = false;
-      })
-      .catch(() => {
-        this.requestOnTheFly = false;
-      });
-  };
 
   cleanUpdateInterval = () => {
     if (this.timer) {
@@ -217,7 +183,7 @@ class Component extends PureComponent<Props, State> {
       case NODE_SYNC_TYPES.READY:
         return 'Your node is synced.';
       default:
-        return 'There was an error. Try restarting Zepio.';
+        return 'There was an error. Try restarting Bitzecio.';
     }
   };
 
@@ -236,31 +202,26 @@ class Component extends PureComponent<Props, State> {
 
   render() {
     const icon = this.getIcon();
-    const { nodeSyncType, nodeSyncProgress, isRefetching } = this.props;
+    const { nodeSyncType, nodeSyncProgress } = this.props;
     const { showTooltip } = this.state;
     const percent = nodeSyncType && nodeSyncType === NODE_SYNC_TYPES.SYNCING
       ? `(${nodeSyncProgress.toFixed(2)}%)`
       : '';
 
     return (
-      <Wrapper>
-        {isRefetching && <RefetchingLabel>Refetching...</RefetchingLabel>}
-        {
-          // eslint-disable-next-line
-          <StatusWrapper
-            onMouseOver={() => this.setState({ showTooltip: true })}
-            onMouseOut={() => this.setState({ showTooltip: false })}
-            id='status-pill'
-          >
-            {showTooltip && (
-              <Tooltip>
-                <TooltipText value={this.getStatusText()} />
-              </Tooltip>
-            )}
-            {icon && <Icon src={icon} animated={this.isSyncing()} />}
-            <StatusPillLabel value={`${this.getLabel()} ${percent}`} />
-          </StatusWrapper>
-        }
+      // eslint-disable-next-line
+      <Wrapper
+        onMouseOver={() => this.setState({ showTooltip: true })}
+        onMouseOut={() => this.setState({ showTooltip: false })}
+        id='status-pill'
+      >
+        {showTooltip && (
+          <Tooltip>
+            <TooltipText value={this.getStatusText()} />
+          </Tooltip>
+        )}
+        {icon && <Icon src={icon} animated={this.isSyncing()} />}
+        <StatusPillLabel value={`${this.getLabel()} ${percent}`} />
       </Wrapper>
     );
   }

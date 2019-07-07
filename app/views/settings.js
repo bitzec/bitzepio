@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import electron from 'electron';
 import dateFns from 'date-fns';
 import eres from 'eres';
+import HDKey from 'hdkey';
 
 import { Button } from '../components/button';
 import { ConfirmDialogComponent } from '../components/confirm-dialog';
@@ -25,6 +26,7 @@ import { MAINNET, TESTNET } from '../constants/bitzec-network';
 import electronStore from '../../config/electron-store';
 import { openExternal } from '../utils/open-external';
 import { isTestnet } from '../../config/is-testnet';
+
 
 import type { MapDispatchToProps, MapStateToProps } from '../containers/settings';
 
@@ -43,6 +45,9 @@ const CONFIRM_RELAUNCH_CONTENT = "You'll need to restart the application and the
 const RUNNING_NON_EMBEDDED_DAEMON_WARNING = 'You are using a separate bitzecd process, in order to change the network, you need to restart the process yourself';
 
 const SHIELDED_ADDRESS_PRIVATE_KEY_PREFIX = isTestnet() ? 'secret-extended-key' : 'SK';
+
+const EXPORT_XPUB_KEY_TITLE = 'Export XPUB Key';
+const EXPORT_XPUB_KEY_CONTENT = 'Export master public key';
 
 const Wrapper = styled.div`
   margin-top: ${props => props.theme.layoutContentPaddingTop};
@@ -202,6 +207,9 @@ type State = {
   successImportPrivateKeys: boolean,
   isLoading: boolean,
   error: string | null,
+  successGenerateMasterKeys: boolean,
+  privateExtendedKey: string,
+  publicExtendedKey: string,
 };
 
 const initialState = {
@@ -213,6 +221,9 @@ const initialState = {
   successExportPrivateKeys: false,
   successImportPrivateKeys: false,
   error: null,
+  successGenerateMasterKeys: false,
+  privateExtendedKey: '',
+  publicExtendedKey: '',
 };
 
 export class SettingsView extends PureComponent<Props, State> {
@@ -260,6 +271,21 @@ export class SettingsView extends PureComponent<Props, State> {
         successExportViewKeys: true,
         isLoading: false,
       });
+    });
+  };
+
+  exportMasterPublicKey = () => {
+    let seed = '4b7e8c391a5ad3a46bfdd020bb6df60b462e262d4f844eb4bfcf946c65df8eee';
+    let hdkey = HDKey.fromMasterSeed(Buffer.from(seed, 'hex'));
+
+    this.setState({ isLoading: true });
+
+    this.setState({
+      // $FlowFixMe
+      privateExtendedKey: hdkey.privateExtendedKey,
+      publicExtendedKey: hdkey.publicExtendedKey,
+      successGenerateMasterKeys: true,
+      isLoading: false,
     });
   };
 
@@ -360,6 +386,9 @@ export class SettingsView extends PureComponent<Props, State> {
       successImportPrivateKeys,
       isLoading,
       error,
+      successGenerateMasterKeys,
+      privateExtendedKey,
+      publicExtendedKey,
     } = this.state;
 
     const { bitzecNetwork, updateBitzecNetwork, embeddedDaemon } = this.props;
@@ -373,33 +402,32 @@ export class SettingsView extends PureComponent<Props, State> {
 
     return (
       <Wrapper>
-        {embeddedDaemon && (
-          <ConfirmDialogComponent
-            title='Confirm'
-            onConfirm={() => updateBitzecNetwork(bitzecNetwork === MAINNET ? TESTNET : MAINNET)}
-            showButtons={embeddedDaemon}
-            renderTrigger={toggleVisibility => (
-              <ThemeSelectWrapper>
-                <SettingsTitle value='Bitzec Network' />
-                <SelectComponent
-                  onChange={value => (bitzecNetwork !== value ? toggleVisibility() : undefined)}
-                  value={bitzecNetwork}
-                  options={networkOptions}
-                />
-              </ThemeSelectWrapper>
-            )}
-          >
-            {() => (
-              <ModalContent>
-                <TextComponent
-                  value={
-                    embeddedDaemon ? CONFIRM_RELAUNCH_CONTENT : RUNNING_NON_EMBEDDED_DAEMON_WARNING
-                  }
-                />
-              </ModalContent>
-            )}
-          </ConfirmDialogComponent>
-        )}
+        <ConfirmDialogComponent
+          title='Confirm'
+          onConfirm={() => updateBitzecNetwork(bitzecNetwork === MAINNET ? TESTNET : MAINNET)}
+          showButtons={embeddedDaemon}
+          renderTrigger={toggleVisibility => (
+            <ThemeSelectWrapper>
+              <SettingsTitle value='Bitzec Network' />
+              <SelectComponent
+                onChange={value => (bitzecNetwork !== value ? toggleVisibility() : undefined)}
+                value={bitzecNetwork}
+                options={networkOptions}
+              />
+            </ThemeSelectWrapper>
+          )}
+        >
+          {() => (
+            <ModalContent>
+              <TextComponent
+                value={
+                  embeddedDaemon ? CONFIRM_RELAUNCH_CONTENT : RUNNING_NON_EMBEDDED_DAEMON_WARNING
+                }
+              />
+            </ModalContent>
+          )}
+        </ConfirmDialogComponent>
+
         <ThemeSelectWrapper>
           <SettingsTitle value='Theme' />
           <SelectComponent
@@ -451,7 +479,54 @@ export class SettingsView extends PureComponent<Props, State> {
             </ModalContent>
           )}
         </ConfirmDialogComponent> */}
-
+        {/* Hidden due to no HD support */}
+        {/*
+        <ConfirmDialogComponent
+          title={EXPORT_XPUB_KEY_TITLE}
+          renderTrigger={toggleVisibility => (
+            <SettingsWrapper>
+              <SettingsTitle value={EXPORT_XPUB_KEY_TITLE} />
+              <SettingsContent value={EXPORT_XPUB_KEY_CONTENT} />
+              <SettingsActionWrapper>
+                <Btn label={EXPORT_XPUB_KEY_TITLE} onClick={toggleVisibility} />
+              </SettingsActionWrapper>
+            </SettingsWrapper>
+          )}
+          onConfirm={this.exportMasterPublicKey}
+          showButtons={!successGenerateMasterKeys}
+          width={550}
+        >
+          {() => (
+            <ModalContent>
+              {successGenerateMasterKeys ? (
+                <>
+                  <ViewKeyHeader>
+                    <ViewKeyLabel value='Private Extended Key' />
+                  </ViewKeyHeader>
+                  <ViewKeyContentWrapper>
+                    <ViewKeyInputComponent
+                      value={privateExtendedKey}
+                      onFocus={event => event.currentTarget.select()}
+                    />
+                    <ClipboardButton text={privateExtendedKey} />
+                  </ViewKeyContentWrapper>
+                  <ViewKeyHeader>
+                    <ViewKeyLabel value='Public Extended Key' />
+                  </ViewKeyHeader>
+                  <ViewKeyContentWrapper>
+                    <ViewKeyInputComponent
+                      value={publicExtendedKey}
+                      onFocus={event => event.currentTarget.select()}
+                    />
+                    <ClipboardButton text={publicExtendedKey} />
+                  </ViewKeyContentWrapper>
+                </>
+              ) : (
+                <TextComponent value={EXPORT_XPUB_KEY_CONTENT} />
+              )}
+            </ModalContent>
+          )}
+        </ConfirmDialogComponent> */}
         <SettingsWrapper>
           <ConfirmDialogComponent
             title={EXPORT_PRIV_KEYS_TITLE}

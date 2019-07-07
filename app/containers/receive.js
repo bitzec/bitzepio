@@ -25,13 +25,11 @@ import type { AppState } from '../types/app-state';
 import type { Dispatch, FetchState } from '../types/redux';
 
 export type MapStateToProps = {|
-  fetchState: FetchState,
   addresses: { address: string, balance: number }[],
 |};
 
 const mapStateToProps = ({ receive }: AppState): MapStateToProps => ({
   addresses: receive.addresses,
-  fetchState: receive.fetchState,
 });
 
 export type MapDispatchToProps = {|
@@ -41,8 +39,6 @@ export type MapDispatchToProps = {|
 
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
   loadAddresses: async () => {
-    dispatch(loadAddresses());
-
     const [zAddressesErr, zAddresses] = await eres(rpc.z_listaddresses());
 
     const [tAddressesErr, transparentAddresses] = await eres(rpc.getaddressesbyaccount(''));

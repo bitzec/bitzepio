@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent, Fragment, type Node } from 'react';
+import React, { PureComponent, Fragment, type Element } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
@@ -22,11 +22,10 @@ const ChildrenWrapper = styled.div`
 `;
 
 type Props = {
-  renderTrigger?: (() => void) => Node,
-  children: (() => void) => Node,
+  renderTrigger: (() => void) => Element<*>,
+  children: (() => void) => Element<*>,
   closeOnBackdropClick?: boolean,
   closeOnEsc?: boolean,
-  isVisible?: boolean,
 };
 
 type State = {
@@ -41,25 +40,14 @@ export class ModalComponent extends PureComponent<Props, State> {
   static defaultProps = {
     closeOnBackdropClick: true,
     closeOnEsc: true,
-    isVisible: false,
-    renderTrigger: () => null,
   };
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      isVisible: props.isVisible || false,
-    };
-  }
+  state = {
+    isVisible: false,
+  };
 
   componentDidMount() {
     const { closeOnEsc } = this.props;
-    const { isVisible } = this.state;
-
-    if (isVisible) {
-      if (modalRoot) modalRoot.appendChild(this.element);
-    }
 
     if (closeOnEsc) {
       window.addEventListener('keydown', this.handleEscPress);
@@ -101,25 +89,26 @@ export class ModalComponent extends PureComponent<Props, State> {
     const { isVisible } = this.state;
     const toggleVisibility = isVisible ? this.close : this.open;
 
-    const renderTriggerProps = () => (renderTrigger ? renderTrigger(toggleVisibility) : null);
-
     return (
       <Fragment>
-        {renderTriggerProps()}
-        {!isVisible
-          ? null
-          : createPortal(
-            <ModalWrapper
-              id='modal-portal-wrapper'
-              data-testid='Modal'
-              onClick={(event) => {
-                if (closeOnBackdropClick && event.target.id === 'modal-portal-wrapper') this.close();
-              }}
-            >
-              <ChildrenWrapper>{children(toggleVisibility)}</ChildrenWrapper>
-            </ModalWrapper>,
-            this.element,
-          )}
+        {renderTrigger(toggleVisibility)}
+        {!isVisible ? null : createPortal(
+          <ModalWrapper
+            id='modal-portal-wrapper'
+            data-testid='Modal'
+            onClick={(event) => {
+              if (
+                closeOnBackdropClick
+                  && event.target.id === 'modal-portal-wrapper'
+              ) this.close();
+            }}
+          >
+            <ChildrenWrapper>
+              {children(toggleVisibility)}
+            </ChildrenWrapper>
+          </ModalWrapper>,
+          this.element,
+        )}
       </Fragment>
     );
   }

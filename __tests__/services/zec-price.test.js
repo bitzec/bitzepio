@@ -1,8 +1,8 @@
 // @flow
 
-import getBZCPrice from '../../services/bzc-price';
+import getBZCPrice from '../../services/zec-price';
 
-describe('BZC PRICE Services', () => {
+describe('ZEC PRICE Services', () => {
   test('should return the right value', async () => {
     const response = await getBZCPrice(['BRL', 'EUR', 'USD']);
 

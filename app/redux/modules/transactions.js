@@ -1,9 +1,7 @@
 // @flow
 
 import uniqBy from 'lodash.uniqby';
-import { FETCH_STATE } from '../../constants/fetch-states';
-
-import type { Action, FetchState } from '../../types/redux';
+import type { Action } from '../../types/redux';
 import type { Transaction } from '../../components/transaction-item';
 
 // Actions
@@ -47,19 +45,19 @@ export const resetTransactionsList = () => ({
 });
 
 export type State = {
+  isLoading: boolean,
   error: string | null,
   list: Transaction[],
   bzcPrice: number,
   hasNextPage: boolean,
-  fetchState: FetchState,
 };
 
 const initialState = {
   bzcPrice: 0,
   list: [],
   error: null,
+  isLoading: false,
   hasNextPage: true,
-  fetchState: FETCH_STATE.INITIALIZING,
 };
 
 // eslint-disable-next-line
@@ -69,27 +67,26 @@ export default (state: State = initialState, action: Action) => {
       return {
         ...state,
         error: null,
-        fetchState: action.fetchState,
+        isLoading: true,
       };
     case LOAD_TRANSACTIONS_SUCCESS:
       return {
         ...state,
         ...action.payload,
         list: uniqBy(state.list.concat(action.payload.list), tr => tr.transactionId + tr.type),
-        fetchState: FETCH_STATE.SUCCESS,
+        isLoading: false,
         error: null,
       };
     case LOAD_TRANSACTIONS_ERROR:
       return {
         ...state,
-        fetchState: FETCH_STATE.ERROR,
+        isLoading: false,
         error: action.payload.error,
       };
     case RESET_TRANSACTIONS_LIST:
       return {
         ...state,
         isLoading: false,
-        isRefreshing: false,
         error: null,
         list: [],
       };

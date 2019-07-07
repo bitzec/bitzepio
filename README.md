@@ -1,4 +1,4 @@
-# Zepio | BZC Wallet
+# Bitzeciooo Zepio  | BZC Wallet
 
 Zepio is a Sapling-enabled shielded-address-first Bitzec wallet, featuring cross-platform applications (macOS, Windows and Linux), built-in full node with support for `mainnet` and `testnet`, as well as `dark` and `light` themes.
 

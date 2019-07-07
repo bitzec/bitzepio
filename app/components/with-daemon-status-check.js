@@ -2,8 +2,6 @@
 import electron from 'electron'; // eslint-disable-line
 import React, { type ComponentType, Component } from 'react';
 
-import store from '../../config/electron-store';
-
 import { LoadingScreen } from './loading-screen';
 
 import rpc from '../../services/api';
@@ -22,7 +20,7 @@ export const withDaemonStatusCheck = <PassedProps: {}>(
 ): ComponentType<$Diff<PassedProps, Props>> => class extends Component<PassedProps, State> {
     timer: ?IntervalID = null;
 
-    requestOnTheFly: boolean = false;
+    hasDaemonError: boolean = false;
 
     state = {
       isRunning: false,
@@ -32,27 +30,20 @@ export const withDaemonStatusCheck = <PassedProps: {}>(
 
     componentDidMount() {
       this.runTest();
-      this.timer = setInterval(this.runTest, 3000);
+      this.timer = setInterval(this.runTest, 2000);
 
-      electron.ipcRenderer.on(
-        'bitzec-daemon-status',
-        (
-          event: empty,
-          message: {
-            error: boolean,
-            status: string,
-          },
-        ) => {
-          if (message.error) {
-            clearInterval(this.timer);
-          }
+      electron.ipcRenderer.on('commercium-daemon-status', (event: empty, message: Object) => {
+        this.hasDaemonError = message.error;
 
-          this.setState({
-            message: message.status,
-            ...(message.error ? { progress: 0, isRunning: false } : {}),
-          });
-        },
-      );
+        if (message.error) {
+          clearInterval(this.timer);
+        }
+
+        this.setState({
+          message: message.status,
+          ...(message.error ? { progress: 0, isRunning: false } : {}),
+        });
+      });
     }
 
     componentWillUnmount() {
@@ -63,31 +54,30 @@ export const withDaemonStatusCheck = <PassedProps: {}>(
     }
 
     runTest = () => {
-      const daemonPID: number = store.get('DAEMON_PROCESS_PID');
-
-      if (this.requestOnTheFly || !daemonPID) return;
-
-      this.requestOnTheFly = true;
+      if (this.hasDaemonError) return;
 
       rpc
-        .ping()
-        .then(() => {
-          this.requestOnTheFly = false;
+        .getinfo()
+        .then((response) => {
+          if (this.hasDaemonError) return;
 
-          setTimeout(() => {
-            this.setState(() => ({ isRunning: true }));
-          }, 500);
-          this.setState(() => ({ progress: 100 }));
+          if (response) {
+            setTimeout(() => {
+              this.setState(() => ({ isRunning: true }));
+            }, 500);
+            this.setState(() => ({ progress: 100 }));
 
-          if (this.timer) {
-            clearInterval(this.timer);
-            this.timer = null;
+            if (this.timer) {
+              clearInterval(this.timer);
+              this.timer = null;
+            }
           }
         })
         .catch((error) => {
-          this.requestOnTheFly = false;
+          if (this.hasDaemonError) return;
 
-          const statusMessage: string = error.message === 'Something went wrong' ? 'Bitzec Starting' : error.message;
+          const statusMessage = error.message === 'Something went wrong' ? 'Millennium Starting' : error.message;
+
           const isRpcOff = Math.trunc(error.statusCode / 100) === 5;
 
           this.setState({

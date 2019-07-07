@@ -2,7 +2,7 @@
 
 import electronStore from '../../../config/electron-store';
 
-import { BITBZC_NETWORK, EMBEDDED_DAEMON } from '../../constants/bitzec-network';
+import { BITZEC_NETWORK, EMBEDDED_DAEMON } from '../../constants/bitzec-network';
 import { NODE_SYNC_TYPES } from '../../constants/node-sync-types';
 
 import type { Action } from '../../types/redux';
@@ -52,18 +52,17 @@ const initialState: State = {
   error: null,
   nodeSyncProgress: 0,
   nodeSyncType: NODE_SYNC_TYPES.SYNCING,
-  bitzecNetwork: electronStore.get(BITBZC_NETWORK),
+  bitzecNetwork: electronStore.get(BITZ_NETWORK),
   embeddedDaemon: electronStore.get(EMBEDDED_DAEMON),
-  isRefetching: false,
 };
 
 // eslint-disable-next-line
-export default (state: State = initialState, action: Action): State => {
+export default (state: State = initialState, action: Action) => {
   switch (action.type) {
     case SHOW_ERROR_MODAL:
-      return { ...state, isErrorModalVisible: true, error: action.payload.error };
+      return { isErrorModalVisible: true, error: action.payload.error };
     case HIDE_ERROR_MODAL:
-      return { ...state, isErrorModalVisible: false, error: null };
+      return { isErrorModalVisible: false, error: null };
     case UPDATE_NODE_SYNC_STATUS:
       return {
         ...state,
