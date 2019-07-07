@@ -16,7 +16,7 @@ type Props = {
   transparent: number,
   unconfirmed: number,
   error: string | null,
-  cmmPrice: number,
+  bzcPrice: number,
   addresses: string[],
   isDaemonReady: boolean,
   transactions: TransactionsList,
