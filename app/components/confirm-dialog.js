@@ -66,7 +66,7 @@ const Btn = styled(Button)`
 type Props = {
   renderTrigger: (() => void) => Element<*>,
   title: string,
-  onConfirm: (() => void) => void,
+  onConfirm: () => void,
   onClose?: () => void,
   showButtons?: boolean,
   width?: number,
