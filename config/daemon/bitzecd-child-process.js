@@ -146,30 +146,34 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     }
   }
 
-  if (optionsFromBitzecConf.rpcconnect) store.set('rpcconnect', optionsFromBitzecConf.rpcconnect);
-  if (optionsFromBitzecConf.rpcport) store.set('rpcport', optionsFromBitzecConf.rpcport);
   if (optionsFromBitzecConf.rpcuser) store.set('rpcuser', optionsFromBitzecConf.rpcuser);
   if (optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', optionsFromBitzecConf.rpcpassword);
+  if (optionsFromBitzecConf.rpcport) store.set('rpcport', optionsFromBitzecConf.rpcport);
 
   if (isRunning) {
     log('Already is running!');
 
     store.set(EMBEDDED_DAEMON, false);
-    // We need grab the rpcuser and rpcpassword from either process args or bitzecd.conf
+    // We need grab the rpcuser and rpcpassword from either process args or bitzec.conf
 
     // Command line args override bitzec.conf
-    const [{ cmd }] = await findProcess('name', ZCASHD_PROCESS_NAME);
-    const { user, password, isTestnet: isTestnetFromCmd } = parseCmdArgs(cmd);
+    const [{ cmd }] = await findProcess('name', BITZECD_PROCESS_NAME);
+    const {
+      user, password, port, isTestnet: isTestnetFromCmd,
+    } = parseCmdArgs(cmd);
 
     store.set(
       BITZEC_NETWORK,
-      isTestnetFromCmd === '1' || optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET,
+      isTestnetFromCmd || optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET,
     );
 
-    if (rpcuser) store.set('rpcuser', rpcuser);
-    if (rpcpassword) store.set('rpcpassword', rpcpassword);
-    if (rpcport) store.set('rpcport', rpcport);
-    if (rpcconnect) store.set('rpcconnect', rpcconnect);
+    if (user) store.set('rpcuser', user);
+    if (password) store.set('rpcpassword', password);
+    if (!port) {
+      store.set('rpcport', 12020);
+    } else {
+      store.set('rpcport', port);
+    }
 
     return resolve();
   }
@@ -177,11 +181,12 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   store.set(EMBEDDED_DAEMON, true);
 
   if (!isRelaunch) {
-    store.set(BITZEC_NETWORK, optionsFromZcashConf.testnet === '1' ? TESTNET : MAINNET);
+    store.set(BITZEC_NETWORK, optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET);
   }
 
   if (!optionsFromBitzecConf.rpcuser) store.set('rpcuser', uuid());
   if (!optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', uuid());
+  if (!optionsFromBitzecConf.rpcport) store.set('rpcport', '12020');
 
   const rpcCredentials = {
     username: store.get('rpcuser'),

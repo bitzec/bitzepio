@@ -149,7 +149,7 @@
   ],
   "build": {
     "appId": "com.bitzecpio",
-    "productName": "Bitecpio",
+    "productName": "Bitzecpio",
     "asar": true,
     "directories": {
       "buildResources": "build",
