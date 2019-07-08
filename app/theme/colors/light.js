@@ -146,5 +146,5 @@ export const LIGHT_COLORS = {
   // Loading
   loadingScreenBg: black,
   loadingScreenText: white,
-  loadingScreenProgress: saffron,
+  loadingScreenProgress: cornflowerBlue,
 };

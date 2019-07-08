@@ -40,7 +40,7 @@ export const DARK_COLORS = {
   background: shark,
   divider: black,
   inactiveItem: scorpion,
-  activeItem: saffron,
+  activeItem: cornflowerBlue,
 
   // Header
   headerTitle: white,
@@ -67,8 +67,8 @@ export const DARK_COLORS = {
   sendCardBorder: transparent,
 
   // Buttons
-  buttonPrimaryBg: saffron,
-  buttonPrimaryDisabledBg: saffron,
+  buttonPrimaryBg: cornflowerBlue,
+  buttonPrimaryDisabledBg: cornflowerBlue,
   buttonPrimaryText: black,
   buttonSecondaryBg: gray,
   buttonSecondaryDisabledBg: cornflowerBlue,
@@ -108,7 +108,7 @@ export const DARK_COLORS = {
   sidebarHoveredItemLabel: manatee,
   sidebarActiveItemBorder: error,
   sidebarItem: scorpion,
-  sidebarItemActive: saffron,
+  sidebarItemActive: cornflowerBlue,
   sidebarItemHovered: white,
   sidebarItemHoveredBg: shark,
 
@@ -148,5 +148,5 @@ export const DARK_COLORS = {
   // Loading
   loadingScreenBg: black,
   loadingScreenText: white,
-  loadingScreenProgress: saffron,
+  loadingScreenProgress: cornflowerBlue,
 };
