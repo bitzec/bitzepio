@@ -13,7 +13,7 @@ IF NOT EXIST %AppData%\Bitzec\bitzec.conf (
     echo addnode=bzcseed.raptorpool.org
     echo addnode=35.242.189.203
     echo rpcuser=username
-    rpcport=87232
+    echo=rpcport=87232
     echo rpcpassword=password%random%%random%
     echo daemon=1
     echo showmetrics=0
