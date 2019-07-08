@@ -32,23 +32,25 @@ const ConsoleImg = styled.img`
 `;
 
 const initialLog = `
-  Thank you for running a Bitzec node!
-  You're helping to strengthen the network and contributing to a social good :)
+  Welcome to the binary digit zero knowledge electronic currency
+  Bitzec full node!
+  do not loose money in crypto :I   do it like zooko
+  https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698
+  bitzec.org`;
 
-  In order to ensure you are adequately protecting your privacy when using Bitzec, please see <https://z.cash/support/security/>.
-`;
 
 const defaultState = `
-  Thank you for running a Bitzec node!
-  You're helping to strengthen the network and contributing to a social good :)
-  In order to ensure you are adequately protecting your privacy when using Bitzec, please see <https://z.cash/support/security/>.
+ Welcome to the binary digit zero knowledge electronic currency
+ Bitzec full node!
+ do not loose money in crypto :I  do it like zooko bitzec.org
+ https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698`;/>.
 
   Block height | 0
-  Connections | 0
+  Connection Army | 0
   Network solution rate | 0 Sol/s
 
-  Since starting this node 0 minutes, 0 seconds ago:
-- You have validated 0 transactions!
+  Since node fire up 0 minutes, 0 seconds ago:
+- Node validated 0 transactions!
 \n
 ------------------------------------------
 `;

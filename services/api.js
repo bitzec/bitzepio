@@ -16,7 +16,7 @@ const getRPCConfig = () => ({
 
 const getMessage = (statusCode, isECONNREFUSED) => {
   if (isECONNREFUSED) {
-    return 'Chill , moontime';
+    return 'the binary digit zero knowledge electronic currency Chill , moontime';
   }
 
   switch (statusCode) {
