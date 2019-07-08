@@ -43,7 +43,7 @@ const defaultState = `
  Welcome to the binary digit zero knowledge electronic currency
  Bitzec full node!
  do not loose money in crypto :I  do it like zooko bitzec.org
- https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698`;/>.
+ https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698`;/.
 
   Block height | 0
   Connection Army | 0
