@@ -16,7 +16,7 @@ const getRPCConfig = () => ({
 
 const getMessage = (statusCode, isECONNREFUSED) => {
   if (isECONNREFUSED) {
-    return 'JUST CHILL , please . Moon lands on us!';
+    return 'Chill , moontime';
   }
 
   switch (statusCode) {

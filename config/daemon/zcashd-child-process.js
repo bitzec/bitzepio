@@ -116,7 +116,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
 
   sendToRenderer('bitzec-daemon-status', {
     error: false,
-    status: 'Bitzec Starting',
+    status: 'Bitzecpio Starting',
   });
 
   // In case of --relaunch on argv, we need wait to close the old bitzec daemon
@@ -166,13 +166,10 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
       isTestnetFromCmd === '1' || optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET,
     );
 
-    if (user) store.set('rpcuser', user);
-    if (password) store.set('rpcpassword', password);
-    if (!port) {
-      store.set('rpcport', 12020);
-    } else {
-      store.set('rpcport', port);
-    }
+    if (rpcuser) store.set('rpcuser', rpcuser);
+    if (rpcpassword) store.set('rpcpassword', rpcpassword);
+    if (rpcport) store.set('rpcport', rpcport);
+    if (rpcconnect) store.set('rpcconnect', rpcconnect);
 
     return resolve();
   }
@@ -185,7 +182,6 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
 
   if (!optionsFromBitzecConf.rpcuser) store.set('rpcuser', uuid());
   if (!optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', uuid());
-  if (!optionsFromBizzecConf.rpcport) store.set('rpcport', '12020');
 
   const rpcCredentials = {
     username: store.get('rpcuser'),

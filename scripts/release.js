@@ -16,8 +16,8 @@ import packageJson from '../package';
 const DIST_FOLDER = path.join(__dirname, '..', './dist');
 const VERSION = packageJson.version;
 const GH_TOKEN = process.env.GH_TOKEN;
-const OWNER = 'andrerfneves';
-const PROJECT = 'bitzecpio';
+const OWNER = 'andrerfneves | ported by millennium team';
+const PROJECT = 'millennium';
 
 const octokit = new Octokit({ auth: GH_TOKEN });
 
