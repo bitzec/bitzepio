@@ -33,24 +33,24 @@ const ConsoleImg = styled.img`
 
 const initialLog = `
   Welcome to the binary digit zero knowledge electronic currency
-  Bitzec full node!
   do not loose money in crypto :I   do it like zooko
-  https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698
-  bitzec.org`;
 
+  bitzec.org <https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698/>.
+`;
 
 const defaultState = `
- Welcome to the binary digit zero knowledge electronic currency
- Bitzec full node!
- do not loose money in crypto :I  do it like zooko bitzec.org
- https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698`;/.
+  the binary digit zero knowledge electronic currency!
+  the fork of forks :
+  In order to ensure you are adequately protecting your privacy when using Zcash, please see <https://z.cash/support/security/>.
 
-  Block height | 0
-  Connection Army | 0
-  Network solution rate | 0 Sol/s
+  BlockZ height | 0
+  ConnectionZ | 0
+  NetworkZ solution rate | 0 Sol/s
+  dont mine , get some airdropZ
 
-  Since node fire up 0 minutes, 0 seconds ago:
-- Node validated 0 transactions!
+
+  Moon Timer 0 minutes, 0 seconds ago:
+- Node has validated 0 transactions! you none.
 \n
 ------------------------------------------
 `;
