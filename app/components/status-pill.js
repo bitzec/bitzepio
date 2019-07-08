@@ -183,7 +183,7 @@ class Component extends PureComponent<Props, State> {
       case NODE_SYNC_TYPES.READY:
         return 'Your node is synced.';
       default:
-        return 'There was an error. Try restarting Bitzecio.';
+        return 'There was an error. Try restarting Bitzecpio.';
     }
   };
 
