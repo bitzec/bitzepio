@@ -170,7 +170,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     if (user) store.set('rpcuser', user);
     if (password) store.set('rpcpassword', password);
     if (!port) {
-      store.set('rpcport', 87232);
+      store.set('rpcport', 8732);
     } else {
       store.set('rpcport', port);
     }
@@ -186,7 +186,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
 
   if (!optionsFromBitzecConf.rpcuser) store.set('rpcuser', uuid());
   if (!optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', uuid());
-  if (!optionsFromBitzecConf.rpcport) store.set('rpcport', '87232');
+  if (!optionsFromBitzecConf.rpcport) store.set('rpcport', '8732');
 
   const rpcCredentials = {
     username: store.get('rpcuser'),
