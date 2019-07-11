@@ -22,7 +22,7 @@ import rpc from '../../services/api';
 import electronStore from '../../config/electron-store';
 
 import type { AppState } from '../types/app-state';
-import type { Dispatch, FetchState } from '../types/redux';
+import type { Dispatch } from '../types/redux';
 
 export type MapStateToProps = {|
   addresses: { address: string, balance: number }[],

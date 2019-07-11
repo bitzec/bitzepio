@@ -26,9 +26,9 @@ import { getLatestAddressKey } from '../utils/get-latest-address-key';
 import { saveShieldedTransaction } from '../../services/shielded-transactions';
 
 import type { AppState } from '../types/app-state';
-import type { Dispatch, FetchState } from '../types/redux';
+import type { Dispatch } from '../types/redux';
 
-import { loadAddresses, loadAddressesSuccess, loadAddressesError } from '../redux/modules/receive';
+import { loadAddressesSuccess, loadAddressesError } from '../redux/modules/receive';
 
 export type SendTransactionInput = {
   from: string,
