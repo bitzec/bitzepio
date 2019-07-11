@@ -25,7 +25,7 @@ export const withDaemonStatusCheck = <PassedProps: {}>(
     state = {
       isRunning: false,
       progress: 0,
-      message: 'BitzecStarting',
+      message: 'Bitzec Starting',
     };
 
     componentDidMount() {

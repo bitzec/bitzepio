@@ -14,7 +14,7 @@ describe('<TextComponent />', () => {
   test('should render correctly', () => {
     const { container } = render(
       <ThemeProvider theme={appTheme}>
-        <TextComponent value='ZEC React Wallet' />
+        <TextComponent value='BZC React Wallet' />
       </ThemeProvider>,
     );
 

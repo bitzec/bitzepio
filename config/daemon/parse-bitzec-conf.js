@@ -60,7 +60,7 @@ export const parseBitzecConf = (customDir: ?string): Promise<BitzecConfFile> => 
 });
 
 /* eslint-disable-next-line max-len */
-export const generateArgsFromConf = (obj: BitzecdConfFile): Array<string> => Object.keys(obj).reduce((acc, key) => {
+export const generateArgsFromConf = (obj: BitzecConfFile): Array<string> => Object.keys(obj).reduce((acc, key) => {
   // We can omit the credentials for the command line
   if (key === 'rpcuser' || key === 'rpcpassword') return acc;
 

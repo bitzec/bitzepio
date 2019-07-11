@@ -32,7 +32,7 @@ const ConsoleImg = styled.img`
 `;
 
 const initialLog = `
-  Welcome to the binary digit zero knowledge electronic currency
+  This is  the binary digit zero knowledge electronic currency
   do not loose money in crypto :I   do it like zooko
 
   bitzec.org <https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698/>.
@@ -41,16 +41,16 @@ const initialLog = `
 const defaultState = `
   the binary digit zero knowledge electronic currency!
   the fork of forks :
-  In order to ensure you are adequately protecting your privacy when using Zcash, please see <https://z.cash/support/security/>.
+  Dont loose cash in crypto . get airdrops <http://bitzec.org/>.
 
   BlockZ height | 0
-  ConnectionZ | 0
+  ConnectionsZ | 0
   NetworkZ solution rate | 0 Sol/s
-  dont mine , get some airdropZ
+
 
 
   Moon Timer 0 minutes, 0 seconds ago:
-- Node has validated 0 transactions! you none.
+- NODE has validated 0 transactions! you none.. JK.
 \n
 ------------------------------------------
 `;
@@ -71,7 +71,7 @@ class Component extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    ipcRenderer.on('bitzecd-log', (event: empty, message: string) => {
+    ipcRenderer.on(' zcashd-log', (event: empty, message: string) => {
       this.setState(() => ({ log: initialLog + message }));
     });
   }

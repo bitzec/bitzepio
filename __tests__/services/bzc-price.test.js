@@ -2,7 +2,7 @@
 
 import getBZCPrice from '../../services/bzc-price';
 
-describe('ZEC PRICE Services', () => {
+describe('BZC PRICE Services', () => {
   test('should return the right value', async () => {
     const response = await getBZCPrice(['BRL', 'EUR', 'USD']);
 

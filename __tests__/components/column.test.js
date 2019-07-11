@@ -15,7 +15,7 @@ describe('<ColumnComponent />', () => {
     const { container } = render(
       <ThemeProvider theme={appTheme}>
         <ColumnComponent>
-          <h3>ZEC</h3>
+          <h3>BZC</h3>
           <h3>React</h3>
           <h3>Wallet</h3>
         </ColumnComponent>
