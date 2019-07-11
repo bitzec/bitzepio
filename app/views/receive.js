@@ -140,6 +140,7 @@ class Component extends PureComponent<Props, State> {
     const buttonText = `${showAdditionalOptions ? 'Hide' : 'Show'} Other Address Types`;
 
     const shieldedAddresses = addresses.filter(({ address }) => address.startsWith('z'));
+    const transparentAddresses = addresses.filter(({ address }) => address.startsWith('t'));
 
     const seeMoreIcon = theme.mode === DARK ? MenuIconDark : MenuIconLight;
 

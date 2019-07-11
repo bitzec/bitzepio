@@ -594,12 +594,6 @@ class Component extends PureComponent<Props, State> {
     );
   };
 
-  getLoadingIcon = () => {
-    const { theme } = this.props;
-
-    return theme.mode === DARK ? LoadingIconDark : LoadingIconLight;
-  };
-
   renderModalContent = ({
     valueSent,
     valueSentInUsd,
