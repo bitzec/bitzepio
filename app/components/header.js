@@ -26,7 +26,6 @@ const LogoWrapper = styled.div`
     ${props => props.theme.colors.sidebarLogoGradientEnd}
   );
   margin-bottom: 20px;
-  border-right: 1px solid ${props => props.theme.colors.sidebarBorderRight};
 `;
 
 const TitleWrapper = styled.div`
