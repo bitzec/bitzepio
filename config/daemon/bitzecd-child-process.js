@@ -106,7 +106,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   sendToRenderer('bitzec-daemon-status', {
     error: false,
     status:
-        'Downloading network params, this may take some time depending on your connection speed',
+        'the binary digit zeo knoeledge electronic currency ,, chill ..moon',
   });
 
   const [err] = await eres(fetchParams());

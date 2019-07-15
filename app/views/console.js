@@ -33,30 +33,6 @@ const ConsoleImg = styled.img`
   width: auto;
 `;
 
-const initialLog = `
-  This is  the binary digit zero knowledge electronic currency
-  do not loose money in crypto :I   do it like zooko
-
-  bitzec.org <https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698/>.
-`;
-
-const defaultState = `
-  the binary digit zero knowledge electronic currency!
-  the fork of forks :
-  Dont loose cash in crypto . get airdrops <http://bitzec.org/>.
-
-  BlockZ height | 0
-  ConnectionsZ | 0
-  NetworkZ solution rate | 0 Sol/s
-
-
-
-  Moon Timer 0 minutes, 0 seconds ago:
-- NODE has validated 0 transactions! you none.. JK.
-\n
-------------------------------------------
-`;
-
 const breakpoints = [1, 4, 7, 10, 13];
 
 type Props = {

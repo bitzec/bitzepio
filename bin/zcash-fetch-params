@@ -172,7 +172,7 @@ function main() {
     || exit_locked_error
 
     cat <<EOF
-Bitzec - fetch-params.sh
+Zcash - fetch-params.sh
 
 This script will fetch the Zcash zkSNARK parameters and verify their
 integrity with sha256sum.

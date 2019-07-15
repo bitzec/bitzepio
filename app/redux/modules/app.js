@@ -55,10 +55,11 @@ const initialState: State = {
   nodeSyncType: NODE_SYNC_TYPES.SYNCING,
   bitzecNetwork: electronStore.get(BITZEC_NETWORK),
   embeddedDaemon: electronStore.get(EMBEDDED_DAEMON),
+  isRefetching: false,
 };
 
 // eslint-disable-next-line
-export default (state: State = initialState, action: Action) => {
+export default (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case SHOW_ERROR_MODAL:
       return { ...state, isErrorModalVisible: true, error: action.payload.error };

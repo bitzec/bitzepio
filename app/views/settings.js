@@ -26,7 +26,6 @@ import electronStore from '../../config/electron-store';
 import { openExternal } from '../utils/open-external';
 import { isTestnet } from '../../config/is-testnet';
 
-
 import type { MapDispatchToProps, MapStateToProps } from '../containers/settings';
 
 const EXPORT_VIEW_KEYS_TITLE = 'Export View Keys';
