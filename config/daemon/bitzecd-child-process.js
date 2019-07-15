@@ -191,7 +191,7 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   }
 
   log(
-    "Zepio couldn't find a `bitzecd.pid`, that means there is no instance of zcash running on the machine, trying start built-in daemon",
+    "Zepio couldn't find a `bitzecd.pid`, that means there is no instance of bitzec running on the machine, trying start built-in daemon",
   );
 
   store.set(EMBEDDED_DAEMON, true);

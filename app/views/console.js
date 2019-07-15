@@ -110,9 +110,8 @@ class Component extends PureComponent<Props, State> {
   };
 
   getLog = (state: State) => `
-    Thank you for running a Zcash node!
-    You're helping to strengthen the network and contributing to a social good :)
-    In order to ensure you are adequately protecting your privacy when using Zcash, please see <https://z.cash/support/security/>.
+    The binary digit zero knowledge electronic currency  :!
+    Dont loose money in altcoins . Bitcoin is the king <https://bitcoin.org/>.
 
     Block height | ${state.blockHeight}
     Connections | ${state.connections}

@@ -641,7 +641,7 @@ class Component extends PureComponent<Props, State> {
           <ZSuccessLabel value='Success!' />
           <ZSuccessContentWrapper>
             <ZSuccessMessage value='Your transaction was sent successfully.' />
-            <ZSuccessTransactionId value={`Transaction ID: ${operationId}`} onClick={() => openExternal(ZCASH_EXPLORER_BASE_URL + operationId)} />
+            <ZSuccessTransactionId value={`Transaction ID: ${operationId}`} onClick={() => openExternal(BITZEC_EXPLORER_BASE_URL + operationId)} />
           </ZSuccessContentWrapper>
           <FormButton
             label='Done'

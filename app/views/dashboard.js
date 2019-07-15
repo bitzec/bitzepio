@@ -138,9 +138,9 @@ export class DashboardView extends PureComponent<Props> {
                 <ContentWrapper>
                   <LogoComponent src={bitzecpioLogo} alt='Bitzecpio' />
                   <TitleComponent value='Hello from Bitzec' isBold />
-                  <WelcomeText value='Zepio is a cross-platform full-node Zcash wallet that allows users to easily send and receive ZEC. With first-class support for Sapling shielded addresses, users are able to create truly private transactions using a modern and intuitive interface.' />
-                  <WelcomeText value='Zepio aims to improve the user experience for those seeking true financial privacy online.' />
-                  <AdditionalText value='Zepio will need to sync the Zcash blockchain data before using all features.' />
+                  <WelcomeText value='Bitzepio is a cross-platform full-node Bitzec wallet that allows users to easily send and receive BZC. With first-class support for Sapling shielded addresses, users are able to create truly private transactions using a modern and intuitive interface.' />
+                  <WelcomeText value='bitZepio aims to improve the user experience for those seeking true financial privacy online.' />
+                  <AdditionalText value='BitZepio will need to sync the Bitzec blockchain data before using all features.' />
                 </ContentWrapper>
               </ModalContent>
             )}

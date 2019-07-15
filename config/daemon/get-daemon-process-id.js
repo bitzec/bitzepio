@@ -1,11 +1,11 @@
 // @flow
 import fs from 'fs';
 import path from 'path';
-import { getZcashFolder } from './get-zcash-folder';
+import { getBitzecFolder } from './get-bitzec-folder';
 
 const BITZEC_PID_FILE = 'bitzecd.pid';
 
-export const getDaemonProcessId = (zcashPath?: string) => {
+export const getDaemonProcessId = (bitzecPath?: string) => {
   try {
     const myPath = bitzecPath || getBitzecFolder();
     const buffer = fs.readFileSync(path.join(myPath, BITZEC_PID_FILE));
