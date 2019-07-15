@@ -17,7 +17,7 @@ import { FETCH_STATE } from '../constants/fetch-states';
 
 import type { MapDispatchToProps, MapStateToProps } from '../containers/dashboard';
 
-import bitzecLogo from '../assets/images/bitzec-icon.png';
+import bitzecpioLogo from '../assets/images/bitzec-icon.png';
 
 const ModalContent = styled(ColumnComponent)`
   min-height: 400px;
@@ -136,7 +136,7 @@ export class DashboardView extends PureComponent<Props> {
             {() => (
               <ModalContent>
                 <ContentWrapper>
-                  <LogoComponent src={bitzecLogo} alt='Bitzec' />
+                  <LogoComponent src={bitzecpioLogo} alt='Bitzecpio' />
                   <TitleComponent value='Hello from Bitzec' isBold />
                   <WelcomeText value='Bitzepio is a cross-platform full-node Bitzec wallet that allows users to easily send and receive BZC. With first-class support for Sapling shielded addresses, users are able to create truly private transactions using a modern and intuitive interface.' />
                   <WelcomeText value='bitZepio aims to improve the user experience for those seeking true financial privacy online.' />

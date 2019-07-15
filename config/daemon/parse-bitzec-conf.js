@@ -67,21 +67,23 @@ export const generateArgsFromConf = (obj: BitzecConfFile): Array<string> => Obje
   return acc.concat(`-${key}=${String(obj[key])}`);
 }, []);
 
-export const parseCmdArgs = (
-  cmd: string,
-): { user: string, password: string, port: string, isTestnet: boolean } => {
+type ParseCmdArgsPayload = {
+  rpcuser: string,
+  rpcpassword: string,
+  rpcconnect: string,
+  rpcport: string,
+  testnet: string,
+};
+
+const ARGS = ['rpcuser', 'rpcpassword', 'testnet', 'rpcport', 'rpcconnect'];
+
+export const parseCmdArgs = (cmd: string): ParseCmdArgsPayload => {
   const splitArgs = cmd.split(' ');
 
-  const rpcUserInArgs = splitArgs.find(x => x.startsWith('-rpcuser'));
-  const rpcPasswordInArgs = splitArgs.find(x => x.startsWith('-rpcpassword'));
-  const rpcPortInArgs = splitArgs.find(x => x.startsWith('-rpcport'));
-  const testnetInArgs = splitArgs.find(x => x.startsWith('-testnet'));
+  return ARGS.reduce((acc, cur) => {
+    const configKey = `-${cur}`;
+    const inArgs = splitArgs.find(x => x.startsWith(configKey));
 
-  const rpcUser = rpcUserInArgs ? rpcUserInArgs.replace('-rpcuser=', '') : '';
-  const rpcPassword = rpcPasswordInArgs ? rpcPasswordInArgs.replace('-rpcpassword=', '') : '';
-  const rpcPort = rpcPortInArgs ? rpcPortInArgs.replace('-rpcport=', '') : '';
-console.log(`rpcport ${rpcPort}`);
-  return {
-    user: rpcUser, password: rpcPassword, port: rpcPort, isTestnet: Boolean(testnetInArgs),
-  };
+    return { ...acc, [cur]: inArgs ? inArgs.replace(`${configKey}=`, '') : '' };
+  }, {});
 };
