@@ -14,6 +14,7 @@ export type State = {|
   nodeSyncType: 'ready' | 'syncing' | 'error',
   bitzecNetwork: string,
   embeddedDaemon: boolean,
+  isRefetching: boolean,
 |};
 
 // Actions
@@ -60,9 +61,9 @@ const initialState: State = {
 export default (state: State = initialState, action: Action) => {
   switch (action.type) {
     case SHOW_ERROR_MODAL:
-      return { isErrorModalVisible: true, error: action.payload.error };
+      return { ...state, isErrorModalVisible: true, error: action.payload.error };
     case HIDE_ERROR_MODAL:
-      return { isErrorModalVisible: false, error: null };
+      return { ...state, isErrorModalVisible: false, error: null };
     case UPDATE_NODE_SYNC_STATUS:
       return {
         ...state,

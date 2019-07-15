@@ -4,7 +4,6 @@ import cp from 'child_process';
 import path from 'path';
 import os from 'os';
 import fs from 'fs';
-import processExists from 'process-exists';
 /* eslint-disable import/no-extraneous-dependencies */
 import isDev from 'electron-is-dev';
 import type { ChildProcess } from 'child_process';
@@ -24,6 +23,7 @@ import { log } from './logger';
 import store from '../electron-store';
 import { parseBitzecConf, parseCmdArgs, generateArgsFromConf } from './parse-bitzec-conf';
 import { isTestnet } from '../is-testnet';
+import { getDaemonProcessId } from './get-daemon-process-id';
 import {
   EMBEDDED_DAEMON,
   BITZEC_NETWORK,
@@ -46,8 +46,8 @@ const getDaemonOptions = ({
 
   const defaultOptions = [
     '-server=1',
-    '-showmetrics',
-    '--metricsui=0',
+    '-showmetrics=1',
+    '-metricsui=0',
     '-metricsrefreshtime=1',
     `-rpcuser=${username}`,
     `-rpcpassword=${password}`,
@@ -64,6 +64,8 @@ const getDaemonOptions = ({
 let resolved = false;
 
 const BITZECD_PROCESS_NAME = getDaemonName();
+const DAEMON_PROCESS_PID = 'DAEMON_PROCESS_PID';
+const DAEMON_START_TIME = 'DAEMON_START_TIME';
 
 let isWindowOpened = false;
 
@@ -91,6 +93,10 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   mainWindow.webContents.on('dom-ready', () => {
     isWindowOpened = true;
   });
+  store.delete('rpcconnect');
+  store.delete('rpcport');
+  store.delete(DAEMON_PROCESS_PID);
+  store.delete(DAEMON_START_TIME);
 
   const processName = path.join(getBinariesPath(), getOsFolder(), BITZECD_PROCESS_NAME);
   const isRelaunch = Boolean(process.argv.find(arg => arg === '--relaunch'));
@@ -125,8 +131,6 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     await waitForDaemonClose(BITZECD_PROCESS_NAME);
   }
 
-  const [, isRunning] = await eres(processExists(BITZECD_PROCESS_NAME));
-
   // This will parse and save rpcuser and rpcpassword in the store
   let [, optionsFromBitzecConf] = await eres(parseBitzecConf());
 
@@ -146,37 +150,49 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     }
   }
 
+  if (optionsFromBitzecConf.rpcconnect) store.set('rpcconnect', optionsFromBitzecConf.rpcconnect);
+  if (optionsFromBitzecConf.rpcport) store.set('rpcport', optionsFromBitzecConf.rpcport);
   if (optionsFromBitzecConf.rpcuser) store.set('rpcuser', optionsFromBitzecConf.rpcuser);
   if (optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', optionsFromBitzecConf.rpcpassword);
-  if (optionsFromBitzecConf.rpcport) store.set('rpcport', optionsFromBitzecConf.rpcport);
 
-  if (isRunning) {
-    log('Already is running!');
+  log('Searching for bitzecd.pid');
+  const daemonProcessId = getDaemonProcessId(optionsFromBitzecConf.datadir);
 
+  if (daemonProcessId) {
     store.set(EMBEDDED_DAEMON, false);
-    // We need grab the rpcuser and rpcpassword from either process args or bitzec.conf
+    log(
+      // eslint-disable-next-line
+        `A daemon was found running in PID: ${daemonProcessId}. Starting Zepio in external daemon mode.`,
+    );
 
     // Command line args override bitzec.conf
-    const [{ cmd }] = await findProcess('name', BITZECD_PROCESS_NAME);
+    const [{ cmd, pid }] = await findProcess('pid', daemonProcessId);
+
+    store.set(DAEMON_PROCESS_PID, pid);
+
+    // We need grab the rpcuser and rpcpassword from either process args or bitzec.conf
     const {
-      user, password, port, isTestnet: isTestnetFromCmd,
-    } = parseCmdArgs(cmd);
+      rpcuser, rpcpassword, rpcconnect, rpcport, testnet: isTestnetFromCmd,
+    } = parseCmdArgs(
+      cmd,
+    );
 
     store.set(
       BITZEC_NETWORK,
-      isTestnetFromCmd || optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET,
+      isTestnetFromCmd === '1' || optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET,
     );
 
-    if (user) store.set('rpcuser', user);
-    if (password) store.set('rpcpassword', password);
-    if (!port) {
-      store.set('rpcport', 8732);
-    } else {
-      store.set('rpcport', port);
-    }
+    if (rpcuser) store.set('rpcuser', rpcuser);
+    if (rpcpassword) store.set('rpcpassword', rpcpassword);
+    if (rpcport) store.set('rpcport', rpcport);
+    if (rpcconnect) store.set('rpcconnect', rpcconnect);
 
     return resolve();
   }
+
+  log(
+    "Zepio couldn't find a `bitzecd.pid`, that means there is no instance of zcash running on the machine, trying start built-in daemon",
+  );
 
   store.set(EMBEDDED_DAEMON, true);
 
@@ -186,7 +202,6 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
 
   if (!optionsFromBitzecConf.rpcuser) store.set('rpcuser', uuid());
   if (!optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', uuid());
-  if (!optionsFromBitzecConf.rpcport) store.set('rpcport', '8732');
 
   const rpcCredentials = {
     username: store.get('rpcuser'),
@@ -207,9 +222,11 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     },
   );
 
+  store.set(DAEMON_PROCESS_PID, childProcess.pid);
+
   childProcess.stdout.on('data', (data) => {
-    sendToRenderer('bitzecd-log', data.toString(), false);
     if (!resolved) {
+      store.set(DAEMON_START_TIME, Date.now());
       resolve(childProcess);
       resolved = true;
     }

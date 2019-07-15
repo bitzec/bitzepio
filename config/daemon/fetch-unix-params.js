@@ -8,7 +8,7 @@ import { log } from './logger';
 
 // eslint-disable-next-line
 export default (): Promise<*> => new Promise((resolve, reject) => {
-  const processName = path.join(getBinariesPath(), 'fetch-params');
+  const processName = path.join(getBinariesPath(), 'zcash-fetch-params');
 
   const childProcess = cp.spawn(processName);
 
