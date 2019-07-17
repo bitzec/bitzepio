@@ -34,10 +34,10 @@ To run **Zepio** from source you'll need to perform the following steps:
 # https://nodejs.org/en/
 
 # Clone Codebase
-git clone git@github.com:BitzecFoundation/zepio.git
+git clone https://github.com/bitzec/bitzepio
 
 # Install Dependencies
-# inside of the `zepio` folder
+# inside of the `bitzepio` folder
 yarn install
 # or
 npm install
