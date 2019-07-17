@@ -1,18 +1,16 @@
 // @flow
 import React from 'react';
+import { LIGHT, THEME_MODE } from '../constants/themes';
+import electronStore from '../../config/electron-store';
 
-export const BitzecLogo = () => (
-  <svg
-    xmlns='http://www.w3.org/2000/svg'
-    viewBox='-75 -10 175 175'
-  >
-    <defs>
-      <style>{'.a{ fill:#040508; }'}</style>
-    </defs>
-    <path
-      className='a'
-      d='M541.425,662.318v4.555h-7.678v5.678H545.5l-11.751,16v4.261h7.678v4.665h4.563v-4.665h7.577v-5.666H541.788l11.777-16v-4.273h-7.577v-4.555Z'
-      transform='translate(-533.747 -662.318)'
-    />
-  </svg>
-);
+export const BitzecLogo = () => {
+  const themeInStore = String(electronStore.get(THEME_MODE));
+  let img = 'https://bitzec.github.io/wp-content/uploads/2018/08/bitzec2.png';
+  if (themeInStore === LIGHT) {
+    img = 'https://bitzec.github.io/wp-content/uploads/2018/08/bitzec2.png';
+  }
+
+  return (
+    <img vspace='5' hspace='7' width='170px' style={{ padding: '15px !important' }} src={img} alt='BZC' />
+  );
+};

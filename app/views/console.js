@@ -74,14 +74,14 @@ class Component extends PureComponent<Props, State> {
     if (err) return;
 
     this.setState(
-      {
-        blockHeight: result[0].blocks,
-        connections: result[0].connections,
-        networkSolutionsRate: result[1].networksolps,
-      },
-      () => {
-        this.requestOnTheFly = false;
-      },
+        {
+          blockHeight: result[0].blocks,
+          connections: result[0].connections,
+          networkSolutionsRate: result[1].networksolps,
+        },
+        () => {
+          this.requestOnTheFly = false;
+        },
     );
   };
 
@@ -92,7 +92,6 @@ class Component extends PureComponent<Props, State> {
     Block height | ${state.blockHeight}
     Connections | ${state.connections}
     Network solution rate | ${state.networkSolutionsRate} Sol/s
-
     Started ${humanizeDuration(new Date() - new Date(store.get('DAEMON_START_TIME')), {
     round: true,
   })} ago
