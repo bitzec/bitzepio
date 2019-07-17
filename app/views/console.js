@@ -34,23 +34,20 @@ const ConsoleImg = styled.img`
 const initialLog = `
   the binary digit zero knowledge electronic currency
   do not loose money in altcoins. Bitcoin is the cryptoking!
-
   bitzec.org <https://bitcointalk.org/index.php?topic=5045890.msg46638698#msg46638698/>.
 `;
 
 const defaultState = `
   the binary digit zero knowledge electronic currency!
   the fork of forks :
-  Dont loose cash in crypto . get airdrops <https://bitcoin.org/>.
+  Again ! Do not loose cash in altcoins. <https://bitcoin.org/>.
 
-  BlockZ height | 0
-  ConnectionZ | 0
-  NetworkZ solution rate | 0 Sol/s
-
-
+  Block height | 0
+  Connections | 0
+  Network solution rate | 0 Sol/s
 
   Moon Timer 0 minutes, 0 seconds ago:
-- NODE has validated 0 transactions! you personal, none..
+- This NODE has validated 0 transactions!
 \n
 ------------------------------------------
 `;
@@ -71,7 +68,7 @@ class Component extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    ipcRenderer.on(' bitzecd-log', (event: empty, message: string) => {
+    ipcRenderer.on('bitzecd-log', (event: empty, message: string) => {
       this.setState(() => ({ log: initialLog + message }));
     });
   }

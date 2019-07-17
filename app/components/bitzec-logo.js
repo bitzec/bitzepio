@@ -11,6 +11,6 @@ export const BitzecLogo = () => {
   }
 
   return (
-    <img vspace='5' hspace='7' width='170px' style={{ padding: '15px !important' }} src={img} alt='BZC' />
+    <img vspace='5' hspace='5' width='50px' style={{ padding: '15px !important' }} src={img} alt='BZC' />
   );
 };
