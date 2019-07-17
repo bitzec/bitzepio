@@ -9,7 +9,6 @@ import { type Match } from 'react-router-dom';
 import { FEES } from '../constants/fees';
 import { DARK } from '../constants/themes';
 import { NODE_SYNC_TYPES } from '../constants/node-sync-types';
-import { FETCH_STATE } from '../constants/fetch-states';
 
 import { InputLabelComponent } from '../components/input-label';
 import { InputComponent } from '../components/input';
@@ -20,14 +19,11 @@ import { ColumnComponent } from '../components/column';
 import { Divider } from '../components/divider';
 import { Button } from '../components/button';
 import { ConfirmDialogComponent } from '../components/confirm-dialog';
-import { LoaderComponent } from '../components/loader';
 
 import { formatNumber } from '../utils/format-number';
 import { ascii2hex } from '../utils/ascii-to-hexadecimal';
 import { isHex } from '../utils/is-hex';
 import { getCoinName } from '../utils/get-coin-name';
-import { openExternal } from '../utils/open-external';
-import { BITZEC_EXPLORER_BASE_URL } from '../constants/explorer';
 
 import SentIcon from '../assets/images/transaction_sent_icon_dark.svg';
 import MenuIconDark from '../assets/images/menu_icon_dark.svg';
@@ -91,7 +87,7 @@ const AmountWrapper = styled.div`
 `;
 
 const AmountInput = styled(InputComponent)`
-  padding-left: ${(props: AmountProps) => (props.isEmpty ? '15' : '50')}px;
+  padding-left: ${(props: AmountProps) => (props.isEmpty ? '15' : '55')}px;
 `;
 
 const ShowFeeButton = styled.button`
@@ -389,11 +385,6 @@ const ZSuccessMessage = styled(TextComponent)`
 const ZSuccessTransactionId = styled(TextComponent)`
   text-align: center;
   word-break: break-all !important;
-
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
 `;
 
 const CustomFeeWarning = styled(TextComponent)`
@@ -603,12 +594,6 @@ class Component extends PureComponent<Props, State> {
     );
   };
 
-  getLoadingIcon = () => {
-    const { theme } = this.props;
-
-    return theme.mode === DARK ? LoadingIconDark : LoadingIconLight;
-  };
-
   renderModalContent = ({
     valueSent,
     valueSentInUsd,
@@ -621,10 +606,12 @@ class Component extends PureComponent<Props, State> {
     /* eslint-enable react/no-unused-prop-types */
   }) => {
     // eslint-disable-next-line react/prop-types
-    const { operationId, isSending, error } = this.props;
+    const {
+      operationId, isSending, error, theme,
+    } = this.props;
     const { from, to } = this.state;
 
-    const loadingIcon = this.getLoadingIcon();
+    const loadingIcon = theme.mode === DARK ? LoadingIconDark : LoadingIconLight;
 
     if (isSending) {
       return (
@@ -641,7 +628,7 @@ class Component extends PureComponent<Props, State> {
           <ZSuccessLabel value='Success!' />
           <ZSuccessContentWrapper>
             <ZSuccessMessage value='Your transaction was sent successfully.' />
-            <ZSuccessTransactionId value={`Transaction ID: ${operationId}`} onClick={() => openExternal(BITZEC_EXPLORER_BASE_URL + operationId)} />
+            <ZSuccessTransactionId value={`Transaction ID: ${operationId}`} />
           </ZSuccessContentWrapper>
           <FormButton
             label='Done'
@@ -752,7 +739,6 @@ class Component extends PureComponent<Props, State> {
       operationId,
       theme,
       nodeSyncType,
-      fetchState,
     } = this.props;
     const {
       showFee,
@@ -765,10 +751,6 @@ class Component extends PureComponent<Props, State> {
       isHexMemo,
       showBalanceTooltip,
     } = this.state;
-
-    if (fetchState === FETCH_STATE.INITIALIZING) {
-      return <LoaderComponent />;
-    }
 
     const isEmpty = amount === '';
 

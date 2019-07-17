@@ -1,4 +1,4 @@
-# BitZepio  | bzc fullnode Wallet
+# Bitzeciooo Zepio  | BZC Wallet
 
 Zepio is a Sapling-enabled shielded-address-first Bitzec wallet, featuring cross-platform applications (macOS, Windows and Linux), built-in full node with support for `mainnet` and `testnet`, as well as `dark` and `light` themes.
 
@@ -34,10 +34,10 @@ To run **Zepio** from source you'll need to perform the following steps:
 # https://nodejs.org/en/
 
 # Clone Codebase
-git clone https://github.com/bitzec/bitzepio
+git clone git@github.com:BitzecFoundation/zepio.git
 
 # Install Dependencies
-# inside of the `bitzepio` folder
+# inside of the `zepio` folder
 yarn install
 # or
 npm install

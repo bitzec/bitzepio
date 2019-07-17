@@ -24,7 +24,7 @@ import type { Transaction } from '../components/transaction-item';
 
 const mapStateToProps = ({ transactions }: AppState) => ({
   transactions: transactions.list,
-  fetchState: transactions.fetchState,
+  isLoading: transactions.isLoading,
   error: transactions.error,
   bzcPrice: transactions.bzcPrice,
   hasNextPage: transactions.hasNextPage,

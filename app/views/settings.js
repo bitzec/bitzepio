@@ -26,6 +26,7 @@ import electronStore from '../../config/electron-store';
 import { openExternal } from '../utils/open-external';
 import { isTestnet } from '../../config/is-testnet';
 
+
 import type { MapDispatchToProps, MapStateToProps } from '../containers/settings';
 
 const EXPORT_VIEW_KEYS_TITLE = 'Export View Keys';
@@ -373,33 +374,32 @@ export class SettingsView extends PureComponent<Props, State> {
 
     return (
       <Wrapper>
-        {embeddedDaemon && (
-          <ConfirmDialogComponent
-            title='Confirm'
-            onConfirm={() => updateBitzecNetwork(bitzecNetwork === MAINNET ? TESTNET : MAINNET)}
-            showButtons={embeddedDaemon}
-            renderTrigger={toggleVisibility => (
-              <ThemeSelectWrapper>
-                <SettingsTitle value='Bitzec Network' />
-                <SelectComponent
-                  onChange={value => (bitzecNetwork !== value ? toggleVisibility() : undefined)}
-                  value={bitzecNetwork}
-                  options={networkOptions}
-                />
-              </ThemeSelectWrapper>
-            )}
-          >
-            {() => (
-              <ModalContent>
-                <TextComponent
-                  value={
-                    embeddedDaemon ? CONFIRM_RELAUNCH_CONTENT : RUNNING_NON_EMBEDDED_DAEMON_WARNING
-                  }
-                />
-              </ModalContent>
-            )}
-          </ConfirmDialogComponent>
-        )}
+        <ConfirmDialogComponent
+          title='Confirm'
+          onConfirm={() => updateBitzecNetwork(bitzecNetwork === MAINNET ? TESTNET : MAINNET)}
+          showButtons={embeddedDaemon}
+          renderTrigger={toggleVisibility => (
+            <ThemeSelectWrapper>
+              <SettingsTitle value='Bitzec Network' />
+              <SelectComponent
+                onChange={value => (bitzecNetwork !== value ? toggleVisibility() : undefined)}
+                value={bitzecNetwork}
+                options={networkOptions}
+              />
+            </ThemeSelectWrapper>
+          )}
+        >
+          {() => (
+            <ModalContent>
+              <TextComponent
+                value={
+                  embeddedDaemon ? CONFIRM_RELAUNCH_CONTENT : RUNNING_NON_EMBEDDED_DAEMON_WARNING
+                }
+              />
+            </ModalContent>
+          )}
+        </ConfirmDialogComponent>
+
         <ThemeSelectWrapper>
           <SettingsTitle value='Theme' />
           <SelectComponent
@@ -451,7 +451,6 @@ export class SettingsView extends PureComponent<Props, State> {
             </ModalContent>
           )}
         </ConfirmDialogComponent> */}
-
         <SettingsWrapper>
           <ConfirmDialogComponent
             title={EXPORT_PRIV_KEYS_TITLE}

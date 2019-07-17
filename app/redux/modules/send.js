@@ -70,7 +70,6 @@ export const loadAddressBalanceError = ({ error }: { error: string }) => ({
 });
 
 export type State = {
-  isLoading: boolean,
   isSending: boolean,
   isToAddressValid: boolean,
   error: string | null,
@@ -80,7 +79,6 @@ export type State = {
 };
 
 const initialState: State = {
-  isLoading: true,
   isSending: false,
   error: null,
   operationId: null,

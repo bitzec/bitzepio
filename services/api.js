@@ -7,19 +7,14 @@ import { METHODS, type APIMethods } from './utils';
 import store from '../config/electron-store';
 import { isTestnet } from '../config/is-testnet';
 
-const getRPCConfig = () => {
-  const rpcport: string = store.get('rpcport');
-  const rpcconnect: string = store.get('rpcconnect');
+const getRPCConfig = () => ({
+  host: '127.0.0.1',
+  port: isTestnet() ? 22020 : store.get('rpcport'),
+  user: store.get('rpcuser'),
+  password: store.get('rpcpassword'),
+});
 
-  return {
-    host: rpcconnect || '127.0.0.1',
-    port: rpcport || (isTestnet() ? 18732 : 8732),
-    user: (store.get('rpcuser'): string),
-    password: (store.get('rpcpassword'): string),
-  };
-};
-
-const getMessage = (statusCode: number, isECONNREFUSED: boolean) => {
+const getMessage = (statusCode, isECONNREFUSED) => {
   if (isECONNREFUSED) {
     return 'the binary digit zero knowledge electronic currency.Just Chill , moontime';
   }
@@ -37,6 +32,7 @@ const api: APIMethods = METHODS.reduce(
     ...obj,
     [method]: (...args) => {
       const RPC = getRPCConfig();
+      console.log(RPC);
       console.info('[RPC CALL]', {
         method,
         payload: args,
@@ -54,12 +50,11 @@ const api: APIMethods = METHODS.reduce(
           },
         })
         .then((data) => {
-          console.log('[RPC CALL SUCCESS] -', method, data.body.result);
           return Promise.resolve(data.body && data.body.result);
         })
         .catch((payload) => {
           console.log(
-            '[RPC CALL ERROR] - ',
+            '[RPC CALL ERROR] - ' + RPC.host,
             payload,
             payload.statusCode === 500 ? 'This may indicate that the daemon is still starting' : '',
           );

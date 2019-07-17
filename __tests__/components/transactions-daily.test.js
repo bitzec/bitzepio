@@ -27,7 +27,6 @@ beforeAll(() => {
 });
 afterAll(() => {
   global.Date = originalDate;
-  // $FlowFixMe
   dateFns.format.mockRestore();
   cleanup();
 });

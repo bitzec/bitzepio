@@ -3,7 +3,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'babel-polyfill';
 
-import createTestServer from '@astrocoders/create-test-server';
+import createTestServer from 'create-test-server';
 
 const transactions = [];
 
@@ -21,7 +21,7 @@ const handler = (server) => {
 
     switch (method) {
       case 'getinfo':
-        sleep(500).then(() => res.send({ result: { version: 1.0 } }));
+        sleep(1500).then(() => res.send({ result: { version: 1.0 } }));
         break;
       case 'getblockchaininfo':
         return res.send({ result: { verificationprogress: 1 } });
@@ -43,7 +43,7 @@ const handler = (server) => {
         });
       case 'z_sendmany':
         // eslint-disable-next-line
-        sleep(1000).then(() => {
+        sleep(2000).then(() => {
           const [, [obj], amount, fee] = req.body.params;
 
           if ((obj.address[0] === 'z' || obj.address[0] === 't') && amount > 0) {
@@ -109,8 +109,6 @@ const handler = (server) => {
         return res.send({
           result: 10,
         });
-      case 'ping':
-        return res.send(null);
       default:
         return null;
     }
@@ -119,10 +117,8 @@ const handler = (server) => {
 
 createTestServer({
   httpPort: '8232',
-  bodyParser: true,
 }).then(handler);
 
 createTestServer({
   httpPort: '18232',
-  bodyParser: true,
 }).then(handler);

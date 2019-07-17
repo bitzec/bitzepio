@@ -6,9 +6,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 /* eslint-disable import/no-extraneous-dependencies */
-import {
-  app, BrowserWindow, typeof BrowserWindow as BrowserWindowType, Menu,
-} from 'electron';
+import { app, Menu, BrowserWindow, typeof BrowserWindow as BrowserWindowType } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import isDev from 'electron-is-dev';
 import { registerDebugShortcut } from '../utils/debug-shortcut';
@@ -17,7 +15,7 @@ import { log as bitzecLog, cleanLogs } from './daemon/logger';
 import getBZCPrice from '../services/bzc-price';
 import store from './electron-store';
 import { handleDeeplink } from './handle-deeplink';
-import { MENU } from '../app/menu';
+import rpc from '../services/api';
 
 dotenv.config();
 
@@ -57,20 +55,21 @@ const createWindow = () => {
   });
 
   mainWindow = new BrowserWindow({
-    minWidth: 815,
-    minHeight: 600,
-    width: 1000,
-    height: 660,
+    minWidth: 980,
+    minHeight: 700,
+    width: 980,
+    height: 700,
     transparent: false,
     frame: true,
     resizable: true,
     webPreferences: {
       devTools: true,
+      // devTools: false,
       webSecurity: true,
     },
   });
 
-  getBZCPrice().then(({ USD }) => store.set('BZC_DOLLAR_PRICE', String(usd)));
+  getBZCPrice().then(({ usd }) => store.set('BZC_DOLLAR_PRICE', String(usd)));
 
   mainWindow.setVisibleOnAllWorkspaces(true);
   registerDebugShortcut(app, mainWindow);
@@ -78,8 +77,6 @@ const createWindow = () => {
   mainWindow.loadURL(
     isDev ? 'http://localhost:8080/' : `file://${path.join(__dirname, '../build/index.html')}`,
   );
-
-  Menu.setApplicationMenu(Menu.buildFromTemplate(MENU));
 
   exports.app = app;
   exports.mainWindow = mainWindow;
@@ -125,6 +122,30 @@ app.on('ready', async () => {
     return;
   }
 
+  // Create the Application's main menu
+  const template = [{
+    label: 'Application',
+    submenu: [
+      { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
+      { type: 'separator' },
+      { label: 'Quit', accelerator: 'Command+Q', click() { app.quit(); } },
+    ],
+  }, {
+    label: 'Edit',
+    submenu: [
+      { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+      { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+      { type: 'separator' },
+      { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+      { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+      { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' },
+    ],
+  },
+  ];
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
   runDaemon()
     .then((proc) => {
       if (proc) {
@@ -143,6 +164,7 @@ app.on('window-all-closed', () => {
 app.on('before-quit', () => {
   if (bitzecDaemon) {
     bitzecLog('Graceful shutdown Bitzec Daemon, this may take a few seconds.');
+    rpc.stop();
     bitzecDaemon.kill('SIGINT');
   }
 });

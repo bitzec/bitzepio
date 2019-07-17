@@ -8,7 +8,6 @@ import type { RouterHistory } from 'react-router-dom';
 
 import { createRootReducer } from './modules/reducer';
 import { errorHandler } from './errorHandler';
-import { fetchStateHandler } from './fetchStateHandler';
 
 export const history: RouterHistory = createHashHistory();
 
@@ -17,12 +16,7 @@ const shouldEnableDevTools = (process.env.NODE_ENV !== 'production' || process.e
 
 export const configureStore = (initialState: Object) => {
   // $FlowFixMe
-  const middleware = applyMiddleware(
-    thunk,
-    routerMiddleware(history),
-    errorHandler,
-    fetchStateHandler,
-  );
+  const middleware = applyMiddleware(thunk, routerMiddleware(history), errorHandler);
 
   const enhancer = compose(
     middleware,

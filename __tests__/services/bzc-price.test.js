@@ -7,9 +7,9 @@ describe('BZC PRICE Services', () => {
     const response = await getBZCPrice(['BRL', 'EUR', 'USD']);
 
     expect(response).toEqual({
-      USD: expect.any(Number),
-      BRL: expect.any(Number),
-      EUR: expect.any(Number),
+      usd: expect.any(Number),
+      brl: expect.any(Number),
+      eur: expect.any(Number),
     });
   });
 });

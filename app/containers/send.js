@@ -26,9 +26,9 @@ import { getLatestAddressKey } from '../utils/get-latest-address-key';
 import { saveShieldedTransaction } from '../../services/shielded-transactions';
 
 import type { AppState } from '../types/app-state';
-import type { Dispatch, FetchState } from '../types/redux';
+import type { Dispatch } from '../types/redux';
 
-import { loadAddresses, loadAddressesSuccess, loadAddressesError } from '../redux/modules/receive';
+import { loadAddressesSuccess, loadAddressesError } from '../redux/modules/receive';
 
 export type SendTransactionInput = {
   from: string,
@@ -43,7 +43,6 @@ export type MapStateToProps = {|
   bzcPrice: number,
   addresses: { address: string, balance: number }[],
   error: string | null,
-  fetchState: FetchState,
   isSending: boolean,
   operationId: string | null,
   isToAddressValid: boolean,
@@ -55,7 +54,6 @@ const mapStateToProps = ({ sendStatus, receive, app }: AppState): MapStateToProp
   bzcPrice: sendStatus.bzcPrice,
   addresses: receive.addresses,
   error: sendStatus.error,
-  fetchState: receive.fetchState,
   isSending: sendStatus.isSending,
   operationId: sendStatus.operationId,
   isToAddressValid: sendStatus.isToAddressValid,
@@ -162,13 +160,14 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     return dispatch(validateAddressError());
   },
   loadAddresses: async () => {
-    dispatch(loadAddresses());
+    // workaround for change address not show up
+    const [accountAddressErr, accountAddress] = await eres(rpc.getaccountaddress(''));
 
     const [zAddressesErr, zAddresses] = await eres(rpc.z_listaddresses());
 
     const [tAddressesErr, transparentAddresses] = await eres(rpc.getaddressesbyaccount(''));
 
-    if (zAddressesErr || tAddressesErr) return dispatch(loadAddressesError({ error: 'Something went wrong!' }));
+    if (zAddressesErr || tAddressesErr || accountAddressErr) return dispatch(loadAddressesError({ error: 'Something went wrong!' }));
 
     const latestZAddress = zAddresses.find(addr => addr === store.get(getLatestAddressKey('shielded'))) || zAddresses[0];
 
