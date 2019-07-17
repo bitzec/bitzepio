@@ -68,7 +68,7 @@ class Component extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    ipcRenderer.on('bitzecd-log', (event: empty, message: string) => {
+    ipcRenderer.on('zcashd-log', (event: empty, message: string) => {
       this.setState(() => ({ log: initialLog + message }));
     });
   }
