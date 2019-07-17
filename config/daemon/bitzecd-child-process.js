@@ -91,6 +91,8 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
   mainWindow.webContents.on('dom-ready', () => {
     isWindowOpened = true;
   });
+  store.delete('rpcconnect');
+  store.delete('rpcport');
 
   const processName = path.join(getBinariesPath(), getOsFolder(), BITZECD_PROCESS_NAME);
   const isRelaunch = Boolean(process.argv.find(arg => arg === '--relaunch'));
@@ -146,9 +148,10 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     }
   }
 
+  if (optionsFromBitzecConf.rpcconnect) store.set('rpcconnect', optionsFromBitzecConf.rpcconnect);
+  if (optionsFromBitzecConf.rpcport) store.set('rpcport', optionsFromBitzecConf.rpcport);
   if (optionsFromBitzecConf.rpcuser) store.set('rpcuser', optionsFromBitzecConf.rpcuser);
   if (optionsFromBitzecConf.rpcpassword) store.set('rpcpassword', optionsFromBitzecConf.rpcpassword);
-  if (optionsFromBitzecConf.rpcport) store.set('rpcport', optionsFromBitzecConf.rpcport);
 
   if (isRunning) {
     log('Already is running!');
@@ -159,21 +162,20 @@ const runDaemon: () => Promise<?ChildProcess> = () => new Promise(async (resolve
     // Command line args override bitzec.conf
     const [{ cmd }] = await findProcess('name', BITZECD_PROCESS_NAME);
     const {
-      user, password, port, isTestnet: isTestnetFromCmd,
-    } = parseCmdArgs(cmd);
+      rpcuser, rpcpassword, rpcconnect, rpcport, testnet: isTestnetFromCmd,
+    } = parseCmdArgs(
+      cmd,
+    );
 
     store.set(
       BITZEC_NETWORK,
       isTestnetFromCmd || optionsFromBitzecConf.testnet === '1' ? TESTNET : MAINNET,
     );
 
-    if (user) store.set('rpcuser', user);
-    if (password) store.set('rpcpassword', password);
-    if (!port) {
-      store.set('rpcport', 8732);
-    } else {
-      store.set('rpcport', port);
-    }
+    if (rpcuser) store.set('rpcuser', rpcuser);
+    if (rpcpassword) store.set('rpcpassword', rpcpassword);
+    if (rpcport) store.set('rpcport', rpcport);
+    if (rpcconnect) store.set('rpcconnect', rpcconnect);
 
     return resolve();
   }

@@ -9,7 +9,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   if [ ! -e "$HOME/Library/Application Support/Bitzec/bitzec.conf" ] ; then
     mkdir -p "$HOME/Library/Application Support/Bitzec"
     echo "server=1" > "$HOME/Library/Application Support/Bitzec/bitzec.conf"
-    echo "addnode=bzcnoode.raptor.org" >> "$HOME/Library/Application Support/Bitzec/bitzec.conf"
+    echo "addnode=bzcnode.raptor.org" >> "$HOME/Library/Application Support/Bitzec/bitzec.conf"
     echo "rpcuser=username$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | fold -w ${1:-32} | head -n 1)" >> "$HOME/Library/Application Support/Bitzec/bitzec.conf"
     echo "rpcpassword=password$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | fold -w ${1:-32} | head -n 1)" >> "$HOME/Library/Application Support/Bitzec/bitzec.conf"
     echo "daemon=1" >> "$HOME/Library/Application Support/Bitzec/bitzec.conf"
@@ -26,7 +26,7 @@ else
   if [ ! -e "$HOME/.bitzec/bitzec.conf" ] ; then
     mkdir -p "$HOME/.bitzec"
     echo "server=1" > "$HOME/.bitzec/bitzec.conf"
-    echo "addnode=seedbzc.raptorpool.org" >> "$HOME/.bitzec/bitzec.conf"
+    echo "addnode=bzcseed.raptorpool.org" >> "$HOME/.bitzec/bitzec.conf"
     echo "rpcuser=username$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | fold -w ${1:-32} | head -n 1)" >> "$HOME/.bitzec/bitzec.conf"
     echo "rpcpassword=password$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | fold -w ${1:-32} | head -n 1)" >> "$HOME/.bitzec/bitzec.conf"
     echo "daemon=1" >> "$HOME/.bitzec/bitzec.conf"
