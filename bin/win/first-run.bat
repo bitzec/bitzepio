@@ -15,8 +15,8 @@ IF NOT EXIST %AppData%\Bitzec\bitzec.conf (
     echo rpcuser=username
     echo rpcpassword=password%random%%random%
     echo rpcport=8732
-    echo daemon=1
-    echo showmetrics=0
+    echo daemon=0
+    echo showmetrics=1
     echo gen=0
 ) > %AppData%\Bitzec\bitzec.conf
 )
