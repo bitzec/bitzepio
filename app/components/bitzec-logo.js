@@ -5,7 +5,7 @@ import electronStore from '../../config/electron-store';
 
 export const BitzecLogo = () => {
   const themeInStore = String(electronStore.get(THEME_MODE));
-  let img = 'https://bitzec.github.io/wp-content/uploads/2018/08/bitcoin.png';
+  let img = 'https://bitzec.github.io/wp-content/bitcoin.png';
   if (themeInStore === LIGHT) {
     img = 'https://bitzec.github.io/wp-content/uploads/2018/08/bitzec2.png';
   }
